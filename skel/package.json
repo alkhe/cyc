@@ -1,0 +1,14 @@
+{
+  "name": "--name--",
+  "version": "0.0.1",
+  "description": "--name--",
+  "main": "index.js",
+  "scripts": {
+    "test": ":"
+  },
+  "keywords": [
+    "--name--"
+  ],
+  "author": "",
+  "license": "MIT"
+}

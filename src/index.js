@@ -2,7 +2,7 @@ let log = ::console.log;
 
 let [,,arg] = process.argv;
 if (arg === '-v' || arg === '--version') {
-	console.log(require('./package.json').version);
+	console.log(require('../package.json').version);
 	process.exit(0);
 }
 
@@ -26,7 +26,7 @@ prompt.get({ name: 'name', description: 'Application Name'.blue, required: true 
 			log('Copying...'.green);
 			copy(skel, dir);
 			log('Populating...'.green);
-			replaceIn(dir, /__name__/g, name);
+			replaceIn(dir, /--name--/g, name);
 			log('Done.'.magenta);
 		} catch (err) {
 			log('Error: '.red + err);

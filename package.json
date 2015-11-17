@@ -8,7 +8,8 @@
     "cyc": "./index.js"
   },
   "scripts": {
-    "test": ":"
+    "test": ":",
+    "build": "gulp"
   },
   "keywords": [
     "cycle",
