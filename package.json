@@ -2,7 +2,11 @@
   "name": "cyc",
   "version": "0.0.1",
   "description": "A fully featured Cycle.js starter.",
+  "preferGlobal": true,
   "main": "index.js",
+  "bin": {
+    "cyc": "./index.js"
+  },
   "scripts": {
     "test": ":"
   },
@@ -22,5 +26,15 @@
   "bugs": {
     "url": "https://github.com/edge/cyc/issues"
   },
-  "homepage": "https://github.com/edge/cyc#readme"
+  "homepage": "https://github.com/edge/cyc#readme",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "fs-extra": "^0.26.2",
+    "prompt": "^0.2.14"
+  },
+  "devDependencies": {
+    "babel-core": "^6.1.21",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.0"
+  }
 }
