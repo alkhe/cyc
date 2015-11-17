@@ -1,0 +1,18 @@
+{
+  "name": "cyc",
+  "version": "0.0.1",
+  "description": "A fully featured Cycle.js starter.",
+  "main": "index.js",
+  "scripts": {
+    "test": ":"
+  },
+  "keywords": [
+    "cycle",
+    "webpack",
+    "isomorphic",
+    "boilerplate",
+    "generator"
+  ],
+  "author": "synchronous",
+  "license": "MIT"
+}
