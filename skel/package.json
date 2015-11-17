@@ -4,11 +4,30 @@
   "description": "--name--",
   "main": "index.js",
   "scripts": {
-    "test": ":"
+    "test": ":",
+    "start": "NODE_ENV=production babel-node .",
+    "build": "NODE_ENV=production webpack -p --config ./pro.babel.js",
+    "dev": "NODE_ENV=development babel-node ."
   },
   "keywords": [
     "--name--"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.1.21",
+    "babel-loader": "^6.2.0",
+    "webpack": "^1.12.6",
+    "webpack-dev-middleware": "^1.2.0",
+    "webpack-hot-middleware": "^2.5.0"
+  },
+  "dependencies": {
+    "@cycle/core": "^6.0.0-rc2",
+    "@cycle/dom": "^8.0.0-rc2",
+    "compression": "^1.6.0",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "rx": "^4.0.7",
+    "virtual-dom": "^2.1.1"
+  }
 }
