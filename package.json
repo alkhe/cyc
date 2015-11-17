@@ -14,5 +14,13 @@
     "generator"
   ],
   "author": "synchronous",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://edge@github.com/edge/cyc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/edge/cyc/issues"
+  },
+  "homepage": "https://github.com/edge/cyc#readme"
 }
