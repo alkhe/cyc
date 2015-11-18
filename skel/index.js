@@ -24,16 +24,16 @@ else {
 }
 
 import { makeHTMLDriver } from '@cycle/dom';
-import view from './src/js/view';
 let renderer = makeHTMLDriver();
+import view from './src/js/view';
 
 let template = jade.compileFile('./src/html/index.jade');
-let iso = ssr => template({ ssr });
 
 router.get('/', (req, res) => {
 	renderer(view().first())
+		.first()
 		.forEach(DOM => {
-			res.end(iso(DOM));
+			res.end(template({ ssr: DOM }));
 		});
 });
 
