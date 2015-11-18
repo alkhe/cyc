@@ -1,5 +1,5 @@
 {
-  "name": "cyc",
+  "name": "cyc-cli",
   "version": "0.0.1",
   "description": "A fully featured Cycle.js starter.",
   "preferGlobal": true,
