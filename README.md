@@ -7,7 +7,7 @@ Scaffold an isomorphic Cycle.js app in seconds.
 ## Installing
 
 ```sh
-$ npm install -g cyc-cli
+$ npm install -g cyc-cli babel-cli
 ```
 
 ## Scaffolding a Project
@@ -19,6 +19,7 @@ $ cyc
   Copying...
   Populating...
   Done.
+$ cd myapp
 $ npm i
 ```
 
@@ -26,11 +27,11 @@ $ npm i
 
 **Development**
 ```sh
-npm run dev
+$ npm run dev
 ```
 
 **Production**
 ```sh
-npm run build
-PORT=80 npm run pro
+$ npm run build
+$ PORT=80 npm run pro
 ```
