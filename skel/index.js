@@ -31,18 +31,10 @@ let template = jade.compileFile('./src/html/index.jade');
 let iso = ssr => template({ ssr });
 
 router.get('/', (req, res) => {
-	renderer(view())
+	renderer(view().first())
 		.forEach(DOM => {
-			console.log(DOM);
-			res.end(iso(DOM))
+			res.end(iso(DOM));
 		});
-// `<html>
-// 	<body>
-// 		<div id='root'></div>
-// 		<script src='./lib/bundle.js'></script>
-// 	</body>
-// </html>`
-// 	);
 });
 
 app
