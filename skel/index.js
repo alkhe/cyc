@@ -41,7 +41,7 @@ app
 	.use(router)
 	.use(express.static('./public'));
 
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 3000;
 
 app.listen(port, 'localhost', err => {
 	if (err) {
