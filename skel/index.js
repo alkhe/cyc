@@ -33,7 +33,8 @@ router.get('/', (req, res) => {
 		<div id='root'></div>
 		<script src='./lib/bundle.js'></script>
 	</body>
-</html>`);
+</html>`
+	);
 });
 
 app
