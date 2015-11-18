@@ -1,11 +1,7 @@
-import { Observable as $ } from 'rx';
 import Cycle from '@cycle/core';
-import { h, makeDOMDriver } from '@cycle/dom';
+import { makeDOMDriver } from '@cycle/dom';
+import view from './view';
 
-Cycle.run(() => ({
-	DOM: $.interval(100)
-		.startWith(0)
-		.map(x => h('div', '' + x))
-}), {
+Cycle.run(({ DOM }) => ({ DOM: view(DOM) }), {
 	DOM: makeDOMDriver('#root')
 });

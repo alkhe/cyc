@@ -1,5 +1,5 @@
 import express from 'express';
-// import jade from 'jade';
+import jade from 'jade';
 
 let production = process.env.NODE_ENV === 'production';
 
@@ -23,18 +23,26 @@ else {
 	})).use(hot(compiler));
 }
 
-// let template = jade.compileFile('./src/html/index.jade');
-// let iso = root => template({ ssr: ReDOM.renderToString(root) });
+import { makeHTMLDriver } from '@cycle/dom';
+import view from './src/js/view';
+let renderer = makeHTMLDriver();
+
+let template = jade.compileFile('./src/html/index.jade');
+let iso = ssr => template({ ssr });
 
 router.get('/', (req, res) => {
-	res.end(
-`<html>
-	<body>
-		<div id='root'></div>
-		<script src='./lib/bundle.js'></script>
-	</body>
-</html>`
-	);
+	renderer(view())
+		.forEach(DOM => {
+			console.log(DOM);
+			res.end(iso(DOM))
+		});
+// `<html>
+// 	<body>
+// 		<div id='root'></div>
+// 		<script src='./lib/bundle.js'></script>
+// 	</body>
+// </html>`
+// 	);
 });
 
 app
