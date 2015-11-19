@@ -17,6 +17,7 @@
   "devDependencies": {
     "babel-core": "^6.1.21",
     "babel-loader": "^6.2.0",
+    "piping": "^0.3.0",
     "webpack": "^1.12.6",
     "webpack-dev-middleware": "^1.2.0",
     "webpack-hot-middleware": "^2.5.0"
