@@ -1,11 +1,13 @@
 import express from 'express';
 import jade from 'jade';
 
-let production = process.env.NODE_ENV === 'production';
-let log = ::console.log;
+const log = ::console.log;
 
-let app = express();
-let router = express.Router();
+const production = process.env.NODE_ENV === 'production';
+const port = process.env.PORT || 3000;
+
+const app = express();
+const router = express.Router();
 
 if (production) {
 	log('[pro]');
@@ -13,7 +15,7 @@ if (production) {
 }
 else {
 	log('[dev]');
-	let config = require('./dev.babel').default,
+	const config = require('./dev.babel').default,
 		compiler = require('webpack')(config),
 		dev = require('webpack-dev-middleware'),
 		hot = require('webpack-hot-middleware');
@@ -25,16 +27,16 @@ else {
 }
 
 import { makeHTMLDriver } from '@cycle/dom';
-let renderer = makeHTMLDriver();
+const renderer = makeHTMLDriver();
 
 const viewsource = require.resolve('./src/js/view');
 let view = require(viewsource).default;
 
-let template = jade.compileFile('./src/html/index.jade');
+const template = jade.compileFile('./src/html/index.jade');
 
 if (!production) {
 	require('chokidar')
-		.watch('./src/js/view.js')
+		.watch(viewsource)
 		.on('change', () => {
 			delete require.cache[viewsource];
 			view = require(viewsource).default;
@@ -53,8 +55,6 @@ router.get('/', (req, res) => {
 app
 	.use(router)
 	.use(express.static('./public'));
-
-const port = process.env.PORT || 3000;
 
 app.listen(port, 'localhost', err => {
 	if (err) {
