@@ -33,5 +33,5 @@ $ npm run dev
 **Production**
 ```sh
 $ npm run build
-$ PORT=80 npm run pro
+$ PORT=80 npm start
 ```
