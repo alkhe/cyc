@@ -1,6 +1,8 @@
 import express from 'express';
 import jade from 'jade';
 
+// Error.stackTraceLimit = Infinity;
+
 const log = ::console.log;
 
 const production = process.env.NODE_ENV === 'production';
@@ -47,11 +49,21 @@ if (!production) {
 	});
 }
 
+import { Observable as $ } from 'rx';
+
+const fakeDOM = {
+	select: () => ({
+		observable: $.empty(),
+		events: () => $.empty()
+	}),
+	dispose: () => {}
+};
+
 router.get('/', (req, res) => {
-	renderer(view(model(intent({}))).first())
+	renderer(view(model(intent(fakeDOM))).first())
 		.first()
-		.forEach(DOM => {
-			res.end(template({ ssr: DOM }));
+		.forEach(ssr => {
+			res.end(template({ ssr }));
 		});
 });
 

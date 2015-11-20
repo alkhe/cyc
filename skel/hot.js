@@ -1,6 +1,6 @@
 import c from 'chokidar';
 
-const log = console::log;
+const log = ::console.log;
 
 export default hotmodules => {
 	c.watch(Object.keys(hotmodules))
