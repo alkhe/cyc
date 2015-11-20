@@ -26,26 +26,29 @@ else {
 	})).use(hot(compiler));
 }
 
+const template = jade.compileFile('./src/html/index.jade');
+
 import { makeHTMLDriver } from '@cycle/dom';
 const renderer = makeHTMLDriver();
 
-const viewsource = require.resolve('./src/js/view');
-let view = require(viewsource).default;
+const vsrc = require.resolve('./src/js/view'),
+	msrc = require.resolve('./src/js/model'),
+	isrc = require.resolve('./src/js/intent');
 
-const template = jade.compileFile('./src/html/index.jade');
+let view = require(vsrc).default,
+	model = require(msrc).default,
+	intent = require(isrc).default;
 
 if (!production) {
-	require('chokidar')
-		.watch(viewsource)
-		.on('change', () => {
-			delete require.cache[viewsource];
-			view = require(viewsource).default;
-			log('[dev] reloaded view');
-		});
+	require('./hot').default({
+		[vsrc]: next => { view = next; },
+		[msrc]: next => { model = next; },
+		[isrc]: next => { intent = next; }
+	});
 }
 
 router.get('/', (req, res) => {
-	renderer(view().first())
+	renderer(view(model(intent({}))).first())
 		.first()
 		.forEach(DOM => {
 			res.end(template({ ssr: DOM }));
