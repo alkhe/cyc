@@ -28,11 +28,6 @@ else {
 	})).use(hot(compiler));
 }
 
-const template = jade.compileFile('./src/html/index.jade');
-
-import { run } from '@cycle/core';
-import { makeHTMLDriver } from '@cycle/dom';
-
 const vsrc = require.resolve('./src/js/view'),
 	msrc = require.resolve('./src/js/model'),
 	isrc = require.resolve('./src/js/intent');
@@ -40,9 +35,6 @@ const vsrc = require.resolve('./src/js/view'),
 let view = require(vsrc).default,
 	model = require(msrc).default,
 	intent = require(isrc).default;
-
-const main = ({ DOM }) => ({ DOM: view(model(intent(DOM))) });
-const renderer = makeHTMLDriver();
 
 if (!production) {
 	require('./hot').default({
@@ -52,10 +44,17 @@ if (!production) {
 	});
 }
 
+const template = jade.compileFile('./src/html/index.jade');
+
+import { run } from '@cycle/core';
+import { makeHTMLDriver } from '@cycle/dom';
+
+const main = ({ DOM }) => ({ DOM: view(model(intent(DOM))) });
+const DOM = makeHTMLDriver();
+
 router.get('/', (req, res) => {
-	run(main, {
-		DOM: renderer
-	}).sources.DOM
+	run(main, { DOM })
+		.sources.DOM
 		.first()
 		.forEach(ssr => {
 			res.end(template({ ssr }));
