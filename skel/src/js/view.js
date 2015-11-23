@@ -4,7 +4,7 @@ import { h } from '@cycle/dom';
 export default ({ height, weight }) =>
 	$.combineLatest(height, weight,
 		(height, weight) =>
-			h('div', [
+			h('.p2.measure', [
 				'Height: ', h('input.Height', { value: height }),
 				h('br'),
 				'Weight: ', h('input.Weight', { value: weight }),
