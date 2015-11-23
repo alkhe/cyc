@@ -30,8 +30,8 @@ else {
 
 const template = jade.compileFile('./src/html/index.jade');
 
+import { run } from '@cycle/core';
 import { makeHTMLDriver } from '@cycle/dom';
-const renderer = makeHTMLDriver();
 
 const vsrc = require.resolve('./src/js/view'),
 	msrc = require.resolve('./src/js/model'),
@@ -41,6 +41,9 @@ let view = require(vsrc).default,
 	model = require(msrc).default,
 	intent = require(isrc).default;
 
+const main = ({ DOM }) => ({ DOM: view(model(intent(DOM))) });
+const renderer = makeHTMLDriver();
+
 if (!production) {
 	require('./hot').default({
 		[vsrc]: next => { view = next; },
@@ -49,18 +52,10 @@ if (!production) {
 	});
 }
 
-import { Observable as $ } from 'rx';
-
-const fakeDOM = {
-	select: () => ({
-		observable: $.empty(),
-		events: () => $.empty()
-	}),
-	dispose: () => {}
-};
-
 router.get('/', (req, res) => {
-	renderer(view(model(intent(fakeDOM))).first())
+	run(main, {
+		DOM: renderer
+	}).sources.DOM
 		.first()
 		.forEach(ssr => {
 			res.end(template({ ssr }));
