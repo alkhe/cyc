@@ -55,7 +55,6 @@ const DOM = makeHTMLDriver();
 router.get('/', (req, res) => {
 	run(main, { DOM })
 		.sources.DOM
-		.first()
 		.forEach(ssr => {
 			res.end(template({ ssr }));
 		});
