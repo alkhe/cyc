@@ -28,19 +28,12 @@ else {
 	})).use(hot(compiler));
 }
 
-const vsrc = require.resolve('./src/js/view'),
-	msrc = require.resolve('./src/js/model'),
-	isrc = require.resolve('./src/js/intent');
-
-let view = require(vsrc).default,
-	model = require(msrc).default,
-	intent = require(isrc).default;
+const mvisrc = require.resolve('./src/js/mvi');
+let mvi = require(mvisrc).default;
 
 if (!production) {
 	require('./hot').default({
-		[vsrc]: next => { view = next; },
-		[msrc]: next => { model = next; },
-		[isrc]: next => { intent = next; }
+		[mvisrc]: next => { mvi = next; }
 	});
 }
 
@@ -49,7 +42,7 @@ const template = jade.compileFile('./src/html/index.jade');
 import { run } from '@cycle/core';
 import { makeHTMLDriver } from '@cycle/dom';
 
-const main = ({ DOM }) => ({ DOM: view(model(intent(DOM))) });
+const main = ({ DOM }) => ({ DOM: mvi(DOM) });
 const DOM = makeHTMLDriver();
 
 router.get('/', (req, res) => {
