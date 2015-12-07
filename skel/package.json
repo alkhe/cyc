@@ -15,18 +15,18 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^6.2.1",
+    "babel-core": "^6.3.15",
     "babel-loader": "^6.2.0",
-    "chokidar": "^1.3.0",
-    "webpack": "^1.12.8",
-    "webpack-dev-middleware": "^1.2.0",
-    "webpack-hot-middleware": "^2.5.0"
+    "chokidar": "^1.4.0",
+    "webpack": "^1.12.9",
+    "webpack-dev-middleware": "^1.4.0",
+    "webpack-hot-middleware": "^2.6.0"
   },
   "dependencies": {
     "@cycle/core": "^6.0.0-rc2",
-    "@cycle/dom": "^8.0.0-rc2",
-    "babel-preset-es2015": "^6.1.18",
-    "babel-preset-stage-0": "^6.1.18",
+    "@cycle/dom": "^8.0.0-rc4",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
     "compression": "^1.6.0",
     "express": "^4.13.3",
     "jade": "^1.11.0",
