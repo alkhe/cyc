@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": ":",
-    "start": "NODE_ENV=production babel-node .",
     "build": "NODE_ENV=production webpack -p --config ./pro.babel.js",
-    "dev": "NODE_ENV=development babel-node ."
+    "html": "babel-node .",
+    "static": "npm run build && npm run html"
   },
   "keywords": [
     "--name--"
