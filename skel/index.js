@@ -45,12 +45,12 @@ import { makeHTMLDriver } from '@cycle/dom';
 const main = ({ DOM }) => ({ DOM: mvi(DOM) });
 const DOM = makeHTMLDriver();
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
 	run(main, { DOM })
 		.sources.DOM
 		.forEach(ssr => {
 			res.end(template({ ssr }));
-		});
+		}, next);
 });
 
 app
