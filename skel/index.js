@@ -17,6 +17,7 @@ if (production) {
 }
 else {
 	log('[dev]');
+	// use dev compilation and hot reloading
 	const config = require('./dev.babel').default,
 		compiler = require('webpack')(config),
 		dev = require('webpack-dev-middleware'),
@@ -28,10 +29,12 @@ else {
 	})).use(hot(compiler));
 }
 
+// get absolute path of mvi file, necessary for hot rebuild
 const mvisrc = require.resolve('./src/js/mvi');
 let mvi = require(mvisrc).default;
 
 if (!production) {
+	// register mvi file with hot rebuilder
 	require('./hot').default({
 		[mvisrc]: next => { mvi = next; }
 	});
@@ -42,7 +45,9 @@ const template = jade.compileFile('./src/html/index.jade');
 import { run } from '@cycle/core';
 import { makeHTMLDriver } from '@cycle/dom';
 
+// Cycle.run main function
 const main = ({ DOM }) => ({ DOM: mvi(DOM) });
+// create mock DOM driver
 const DOM = makeHTMLDriver();
 
 router.get('/', (req, res, next) => {

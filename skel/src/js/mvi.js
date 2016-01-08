@@ -1,6 +1,7 @@
 import { Observable as $ } from 'rx';
 import { h } from '@cycle/dom';
 
+// DOM event helpers
 const Event = (ev, mod = x => x) =>
 	el => mod(el.events(ev));
 
