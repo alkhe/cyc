@@ -2,7 +2,9 @@
 
 Scaffold an isomorphic Cycle.js app in seconds.
 
-*cyc* provides a starting point for Cycle.js applications. It comes with production and development webpack configurations, hot module reloading, Babel transpilation, and an isomorphic express server.
+*cyc* provides a starting point for Cycle.js applications. It comes with production and development webpack configurations, hot module reloading, server reloading, Babel transpilation, and an isomorphic express server.
+
+[View the live preview.](http://edge.github.io/cyc/)
 
 ## Installing
 
