@@ -1,27 +1,27 @@
 import {
-	readdirSync as rd,
-	renameSync as rn,
+	readdirSync as ls,
+	renameSync as mv,
 	statSync as stat,
-	readFileSync as rf,
-	writeFileSync as wf
+	readFileSync as read,
+	writeFileSync as write
 } from 'fs-extra';
 import path from 'path';
 
 // replace all instances of `find` in `dir` with `replace`
-let replaceIn = (dir, find, replace) => {
-	rd(dir).forEach(c => {
-		let oldName = path.join(dir, c);
-		if (c !== 'node_modules') {
-			let name = oldName.replace(find, replace);
-			rn(oldName, name);
+const replaceIn = (dir, find, replace) => {
+	ls(dir)
+		.filter(x => x !== 'node_modules')
+		.forEach(child => {
+			const oldName = path.join(dir, child);
+			const name = oldName.replace(find, replace);
+			mv(oldName, name);
 			if (stat(name).isDirectory()) {
 				replaceIn(name, find, replace);
 			}
 			else {
-				wf(name, rf(name, 'utf8').replace(find, replace));
+				write(name, read(name, 'utf8').replace(find, replace));
 			}
-		}
-	});
+		});
 };
 
 export default replaceIn;

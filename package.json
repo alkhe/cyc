@@ -39,5 +39,8 @@
     "babel-preset-stage-0": "^6.5.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2"
+  },
+  "xo": {
+    "esnext": true
   }
 }

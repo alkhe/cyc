@@ -1,6 +1,6 @@
-let log = ::console.log;
+const log = ::console.log;
 
-let [,,arg] = process.argv;
+const [,,arg] = process.argv;
 if (arg === '-v' || arg === '--version') {
 	console.log(require('../package.json').version);
 	process.exit(0);
@@ -19,9 +19,9 @@ prompt.delimiter = '';
 prompt.start();
 
 prompt.get({ name: 'name', description: 'Application Name'.blue, required: true }, (err, res) => {
-	let { name } = res;
+	const { name } = res;
 	prompt.get({ name: 'dir', description: 'Directory'.blue, default: name, required: true }, (err, res) => {
-		let dir = path.resolve(res.dir);
+		const dir = path.resolve(res.dir);
 		try {
 			log('Copying...'.green);
 			copy(skel, dir);
