@@ -31,5 +31,6 @@ prompt.get({ name: 'name', description: 'Application Name'.blue, required: true 
 		} catch (err) {
 			log('Error: '.red + err);
 		}
+		process.exit();
 	});
 });
