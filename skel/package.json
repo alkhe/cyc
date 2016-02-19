@@ -28,9 +28,11 @@
   "dependencies": {
     "@cycle/core": "^6.0.2",
     "@cycle/dom": "^9.0.3",
+    "@cycle/isolate": "^1.2.0",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "compression": "^1.6.1",
+    "cycle-restart": "0.0.9",
     "express": "^4.13.4",
     "jade": "^1.11.0",
     "rx": "^4.0.8",

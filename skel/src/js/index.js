@@ -1,9 +1,23 @@
 import { run } from '@cycle/core';
 import { makeDOMDriver } from '@cycle/dom';
-import mvi from './mvi';
+// import isolate from '@cycle/isolate';
+import { restart, restartable as R } from 'cycle-restart';
 
-run(({ DOM }) => ({
+let mvi = require('./mvi').default;
+
+const main = ({ DOM }) => ({
 	DOM: mvi(DOM).skip(1)
-}), {
-	DOM: makeDOMDriver('#root')
 });
+
+const drivers = {
+	DOM: R(makeDOMDriver('#root'))
+};
+
+const cycle = run(main, drivers);
+
+if (module.hot) {
+	module.hot.accept('./mvi', () => {
+		mvi = require('./mvi').default;
+		restart(main, drivers, cycle);
+	});
+}
