@@ -1,5 +1,6 @@
 import w from 'webpack';
 import path from 'path';
+import loaders from './loaders';
 
 export default {
 	devtool: 'eval',
@@ -17,7 +18,5 @@ export default {
 		new w.optimize.DedupePlugin(),
 		new w.optimize.OccurenceOrderPlugin()
 	],
-	module: {
-		loaders: [{ test: /\.js$/, loader: 'babel-loader' }]
-	}
+	module: { loaders }
 };

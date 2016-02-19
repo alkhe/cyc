@@ -20,12 +20,18 @@ const model = ({ height, weight }) => ({
 const view = ({ height, weight }) =>
 	$.combineLatest(height, weight,
 		(height, weight) =>
-			h('.p2.measure', [
-				'Height: ', h('input.Height', { value: height }),
-				h('br'),
-				'Weight: ', h('input.Weight', { value: weight }),
-				h('br'),
-				'BMI: ' + (weight / (height / 100) ** 2).toFixed(1)
+			h('section', [
+				h('.columns', [
+					h('span.tag.is-dark', 'Height:'),
+					h('input.Height.input', { value: height })
+				]),
+				h('.columns', [
+					h('span.tag.is-dark', 'Weight:'),
+					h('input.Weight.input', { value: weight })
+				]),
+				h('.columns', [
+					h('span.tag.is-info', 'BMI: ' + (weight / (height / 100) ** 2).toFixed(1))
+				])
 			])
 	);
 

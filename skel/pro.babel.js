@@ -1,7 +1,8 @@
 import { optimize as oz } from 'webpack';
 import path from 'path';
+import loaders from './loaders';
 
-module.exports = {
+export default {
 	entry: './src/js',
 	output: {
 		path: path.join(__dirname, 'public/lib'),
@@ -16,7 +17,5 @@ module.exports = {
 		}),
 		new oz.AggressiveMergingPlugin()
 	],
-	module: {
-		loaders: [{ test: /\.js$/, loader: 'babel-loader' }]
-	}
+	module: { loaders }
 };
