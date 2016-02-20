@@ -10,7 +10,7 @@ const main = ({ DOM }) => ({
 });
 
 const drivers = {
-	DOM: R(makeDOMDriver('#root'))
+	DOM: R(makeDOMDriver('#root'), {pauseSinksWhileReplaying: false})
 };
 
 const cycle = run(main, drivers);
