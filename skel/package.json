@@ -21,6 +21,7 @@
     "babel-core": "^6.5.2",
     "babel-loader": "^6.2.3",
     "chokidar": "^1.4.2",
+    "cycle-restart": "0.0.10",
     "webpack": "^1.12.13",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.7.1"
