@@ -27,8 +27,8 @@
     "webpack-hot-middleware": "^2.7.1"
   },
   "dependencies": {
-    "@cycle/core": "^6.0.2",
-    "@cycle/dom": "^9.0.3",
+    "@cycle/core": "^6.0.3",
+    "@cycle/dom": "^9.1.0",
     "@cycle/isolate": "^1.2.0",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",

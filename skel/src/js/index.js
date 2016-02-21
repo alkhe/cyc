@@ -1,7 +1,7 @@
 import { run } from '@cycle/core';
 import { makeDOMDriver } from '@cycle/dom';
 // import isolate from '@cycle/isolate';
-import { restart, restartable as R } from 'cycle-restart';
+import { restart, restartable } from 'cycle-restart';
 
 let mvi = require('./mvi').default;
 
@@ -10,7 +10,7 @@ const main = ({ DOM }) => ({
 });
 
 const drivers = {
-	DOM: R(makeDOMDriver('#root'), {pauseSinksWhileReplaying: false})
+	DOM: restartable(makeDOMDriver('#root'), { pauseSinksWhileReplaying: false })
 };
 
 const cycle = run(main, drivers);

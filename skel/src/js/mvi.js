@@ -24,6 +24,7 @@ const view = ({ height, weight }) =>
 				'Height: ', h('input.Height', { value: height }),
 				h('br'),
 				'Weight: ', h('input.Weight', { value: weight }),
+				h('br'),
 				'BMI: ' + (weight / (height / 100) ** 2).toFixed(1)
 			])
 	);
