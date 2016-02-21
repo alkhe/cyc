@@ -1,7 +1,7 @@
 import { optimize as oz } from 'webpack';
 import path from 'path';
 
-module.exports = {
+export default {
 	entry: './src/js',
 	output: {
 		path: path.join(__dirname, 'public/lib'),
