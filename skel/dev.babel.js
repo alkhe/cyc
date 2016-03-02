@@ -2,21 +2,18 @@ import w from 'webpack';
 import path from 'path';
 
 export default {
-	devtool: 'eval',
-	entry: [
-		'webpack-hot-middleware/client',
-		'./src/js'
-	],
+	entry: ['webpack-hot-middleware/client', './src/js'],
 	output: {
 		path: path.join(__dirname, 'dist'),
 		filename: 'bundle.js',
 		publicPath: '/lib/'
 	},
 	plugins: [
+		new w.optimize.OccurenceOrderPlugin(),
 		new w.HotModuleReplacementPlugin(),
-		new w.optimize.DedupePlugin(),
-		new w.optimize.OccurenceOrderPlugin()
+		new w.NoErrorsPlugin()
 	],
+	devtool: 'eval',
 	module: {
 		loaders: [{ test: /\.js$/, loader: 'babel-loader' }]
 	}

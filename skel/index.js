@@ -29,7 +29,7 @@ else {
 	})).use(hot(compiler));
 }
 
-// get absolute path of mvi file, necessary for hot rebuild
+// get absolute path of mvi file, necessary for server-side rebuild
 const mvisrc = require.resolve('./src/js/mvi');
 let mvi = require(mvisrc).default;
 
