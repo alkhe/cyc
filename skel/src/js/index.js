@@ -1,12 +1,11 @@
 import { run } from '@cycle/core';
 import { makeDOMDriver } from '@cycle/dom';
-// import isolate from '@cycle/isolate';
 import { restart, restartable } from 'cycle-restart';
 
 let mvi = require('./mvi').default;
 
 const main = ({ DOM }) => ({
-	DOM: mvi(DOM).skip(1)
+	DOM: mvi(DOM)
 });
 
 const drivers = {

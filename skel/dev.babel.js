@@ -9,7 +9,9 @@ export default {
 		publicPath: '/lib/'
 	},
 	plugins: [
+		new w.optimize.OccurenceOrderPlugin(),
 		new w.HotModuleReplacementPlugin(),
+		new w.NoErrorsPlugin()
 	],
 	devtool: 'eval',
 	module: {
