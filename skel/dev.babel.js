@@ -14,6 +14,6 @@ export default {
 		new w.HotModuleReplacementPlugin(),
 		new w.NoErrorsPlugin()
 	],
-	devtool: 'eval'
+	devtool: 'eval',
 	module: { loaders }
 };
