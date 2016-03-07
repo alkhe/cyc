@@ -18,7 +18,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^6.6.4",
+    "babel-core": "^6.6.5",
     "babel-loader": "^6.2.4",
     "chokidar": "^1.4.3",
     "webpack": "^1.12.14",
