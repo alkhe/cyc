@@ -1,17 +1,21 @@
 import express from 'express';
 import jade from 'jade';
+import path from 'path';
+import babelRequire from './babel-require';
 
 // Error.stackTraceLimit = Infinity;
 
+// path helper functions
+const here = path.resolve('.');
+const local = (...paths) => path.join(here, ...paths);
+
 const log = ::console.log;
 
-const production = process.env.NODE_ENV === 'production';
 const port = process.env.PORT || 3000;
-
 const app = express();
 const router = express.Router();
 
-if (production) {
+if (process.env.NODE_ENV === 'production') {
 	log('[pro]');
 	app.use(require('compression')());
 }
@@ -29,33 +33,38 @@ else {
 	})).use(hot(compiler));
 }
 
-// get absolute path of mvi file, necessary for server-side rebuild
-const mvisrc = require.resolve('./src/js/mvi');
-let mvi = require(mvisrc).default;
-
-if (!production) {
-	// register mvi file with hot rebuilder
-	require('./hot').default({
-		[mvisrc]: next => { mvi = next; }
-	});
-}
-
-const template = jade.compileFile('./src/html/index.jade');
-
 import { run } from '@cycle/core';
 import { makeHTMLDriver } from '@cycle/dom';
 
-// Cycle.run main function
-const main = ({ DOM }) => ({ DOM: mvi(DOM) });
 // create mock DOM driver
 const DOM = makeHTMLDriver();
 
-router.get('/', (req, res, next) => {
-	run(main, { DOM })
-		.sources.DOM
-		.forEach(ssr => {
-			res.end(template({ ssr }));
-		}, next);
+// takes a config and creates a server endpoint
+let endpoint = ({ app, page, route }) => {
+	const template = jade.compileFile(local('src/html', page));
+	let program = babelRequire(app).default;
+
+	if (process.env.NODE_ENV !== 'production') {
+		// register mvi file with hot rebuilder
+		require('./hot').accept(app, next => { program = next; });
+	}
+
+	// Cycle.run main function
+	const main = ({ DOM }) => ({ DOM: program(DOM) });
+
+	router.get(route, (req, res, next) => {
+		run(main, { DOM })
+			.sources.DOM
+			.forEach(ssr => {
+				res.end(template({ ssr }));
+			}, next);
+	});
+}
+
+endpoint({
+	app: './src/js/mvi.js',
+	page: './index.jade',
+	route: '/'
 });
 
 app
