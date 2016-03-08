@@ -12,12 +12,12 @@ export default {
 		new w.DefinePlugin({
 			'process.env.NODE_ENV': '\'production\''
 		}),
-		// new oz.DedupePlugin(),
-		// new oz.OccurrenceOrderPlugin(),
-		// new oz.UglifyJsPlugin({
-		// 	compressor: { screw_ie8: true, warnings: false }
-		// }),
-		// new oz.AggressiveMergingPlugin()
+		new oz.DedupePlugin(),
+		new oz.OccurrenceOrderPlugin(),
+		new oz.UglifyJsPlugin({
+			compressor: { screw_ie8: true, warnings: false }
+		}),
+		new oz.AggressiveMergingPlugin()
 	],
 	target: 'node',
 	externals: [nodeExternals()],

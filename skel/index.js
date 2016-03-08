@@ -1,12 +1,12 @@
 import express from 'express';
 import jade from 'jade';
 import path from 'path';
-import babelRequire from './babel-require';
+import babelRequire from 'babel-require2';
 
 // Error.stackTraceLimit = Infinity;
 
 // path helper functions
-const here = path.resolve('.');
+const here = process.cwd();
 const local = (...paths) => path.join(here, ...paths);
 
 const log = ::console.log;
@@ -42,7 +42,7 @@ const DOM = makeHTMLDriver();
 // takes a config and creates a server endpoint
 let endpoint = ({ app, page, route }) => {
 	const template = jade.compileFile(local('src/html', page));
-	let program = babelRequire(app).default;
+	let program = babelRequire(local('src/js', app)).default;
 
 	if (process.env.NODE_ENV !== 'production') {
 		// register mvi file with hot rebuilder
@@ -62,7 +62,7 @@ let endpoint = ({ app, page, route }) => {
 }
 
 endpoint({
-	app: './src/js/mvi.js',
+	app: './mvi.js',
 	page: './index.jade',
 	route: '/'
 });

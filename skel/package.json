@@ -6,7 +6,7 @@
   "scripts": {
     "test": ":",
     "_start": "node server.js",
-    "_mkserver": "webpack --config ./srv.babel.js",
+    "_mkserver": "webpack -p --config ./srv.babel.js",
     "_mkclient": "webpack -p --config ./pro.babel.js",
     "_dev": "babel-node .",
     "start": "NODE_ENV=production npm run _start",
@@ -40,6 +40,7 @@
     "@cycle/core": "^6.0.3",
     "@cycle/dom": "^9.1.0",
     "@cycle/isolate": "^1.2.0",
+    "babel-require2": "^6.6.5",
     "compression": "^1.6.1",
     "cycle-restart": "0.0.13",
     "express": "^4.13.4",

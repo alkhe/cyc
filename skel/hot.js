@@ -1,5 +1,5 @@
 import c from 'chokidar';
-import babelRequire from './babel-require';
+import babelRequire from 'babel-require2';
 import path from 'path';
 
 const log = ::console.log;
