@@ -5,20 +5,20 @@
   "main": "index.js",
   "scripts": {
     "test": ":",
+    "_dev": "babel-node .",
     "_start": "node server.js",
     "_mkserver": "webpack -p --config ./srv.babel.js",
     "_mkclient": "webpack -p --config ./pro.babel.js",
-    "_dev": "babel-node .",
+    "dev": "NODE_ENV=development npm run _dev",
     "start": "NODE_ENV=production npm run _start",
     "mkserver": "NODE_ENV=production npm run _mkserver",
     "mkclient": "NODE_ENV=production npm run _mkclient",
     "mk": "npm run mkserver && npm run mkclient",
-    "dev": "NODE_ENV=development npm run _dev",
+    "wdev": "set NODE_ENV=development&& npm run _dev",
     "wstart": "set NODE_ENV=production&& npm run _start",
     "wmkserver": "set NODE_ENV=production&& npm run _mkserver",
     "wmkclient": "set NODE_ENV=development&& npm run _mkclient",
-    "wmk": "npm run wmkserver && npm run wmkclient",
-    "wdev": "set NODE_ENV=development&& npm run _dev"
+    "wmk": "npm run wmkserver && npm run wmkclient"
   },
   "keywords": [
     "--name--"

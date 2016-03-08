@@ -34,6 +34,18 @@ $ npm run dev
 
 **Production**
 ```sh
-$ npm run build
+$ npm run mk
 $ PORT=80 npm start
 ```
+
+## npm scripts
+
+Unix:
+- `dev` start dev server
+- `start` start production server (requires built server and client)
+- `mkserver` build production server (fast)
+- `mkclient` build production client (slow)
+- `mk` build production server and client
+
+Windows:
+- put `w` before any command listed above (e.g. `wdev`)
