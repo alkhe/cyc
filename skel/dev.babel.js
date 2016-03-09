@@ -1,5 +1,6 @@
-import w from 'webpack';
+import { default as w, optimize as oz } from 'webpack';
 import path from 'path';
+import loaders from './loaders';
 
 export default {
 	entry: ['webpack-hot-middleware/client', './src/js'],
@@ -9,12 +10,10 @@ export default {
 		publicPath: '/lib/'
 	},
 	plugins: [
-		new w.optimize.OccurenceOrderPlugin(),
+		new oz.OccurrenceOrderPlugin(),
 		new w.HotModuleReplacementPlugin(),
 		new w.NoErrorsPlugin()
 	],
 	devtool: 'eval',
-	module: {
-		loaders: [{ test: /\.js$/, loader: 'babel-loader' }]
-	}
+	module: { loaders }
 };

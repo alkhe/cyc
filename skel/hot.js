@@ -1,13 +1,16 @@
 import c from 'chokidar';
+import babelRequire from 'babel-require2';
+import path from 'path';
 
 const log = ::console.log;
 
-export default hotmodules => {
-	c.watch(Object.keys(hotmodules))
+export let accept = (filename, update) => {
+	c.watch(path.resolve(filename))
 		.on('change', file => {
 			delete require.cache[file];
 			try {
-				hotmodules[file](require(file).default);
+				log(`reloading ${ file }`);
+				update(babelRequire(file).default);
 				log(`reloaded ${ file }`);
 			}
 			catch (e) {
