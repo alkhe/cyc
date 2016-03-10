@@ -10,7 +10,7 @@ export let accept = (filename, update) => {
 			delete require.cache[file];
 			try {
 				log(`reloading ${ file }`);
-				update(babelRequire(file).default);
+				update(babelRequire(file));
 				log(`reloaded ${ file }`);
 			}
 			catch (e) {
