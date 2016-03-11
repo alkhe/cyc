@@ -1,10 +1,14 @@
+import { version } from '../package.json';
+
 const log = ::console.log;
 
 const [,,arg] = process.argv;
 if (arg === '-v' || arg === '--version') {
-	console.log(require('../package.json').version);
+	log(version);
 	process.exit(0);
 }
+
+log(`cyc v${ version }`.cyan);
 
 import { copySync as copy } from 'fs-extra';
 import path from 'path';

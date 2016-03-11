@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": ":",
-    "build": "gulp"
+    "build": "gulp",
+    "prepublish": "gulp"
   },
   "keywords": [
     "cycle",
