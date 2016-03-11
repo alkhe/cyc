@@ -1,8 +1,8 @@
 # cyc
 
-*cyc* provides an intuitive and hassle-free starting point for Cycle.js applications. It comes with production and development webpack configurations, hot module reloading, server reloading, Babel transpilation, and an isomorphic express server.
+*cyc* provides an intuitive and hassle-free starting point for Cycle.js applications. It comes with production and development webpack configurations, dynamic hot reloading, Babel transpilation, and an isomorphic express server. `cyc` is designed with convenience and scalability in mind.
 
-Features:
+Overview:
 - production and development webpack configurations
 - project-wide babel transpilation
 - hot reloading with cycle-restart
