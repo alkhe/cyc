@@ -3,7 +3,8 @@ import { run } from '@cycle/core';
 import { makeDOMDriver, makeHTMLDriver } from '@cycle/dom';
 import { restart, restartable } from 'cycle-restart';
 
-let source = './main', drivers;
+export let source = './main';
+export let drivers = {};
 
 if (CLIENT) {
 	drivers = {
@@ -25,5 +26,3 @@ else {
 		DOM: makeHTMLDriver()
 	};
 }
-
-export { drivers, source }
