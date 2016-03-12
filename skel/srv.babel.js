@@ -1,5 +1,5 @@
-import { default as w, optimize as oz } from 'webpack';
-import loaders from './loaders';
+import w from 'webpack';
+import { loaders, productionPlugins } from './constants';
 import nodeExternals from 'webpack-node-externals';
 
 export default {
@@ -8,18 +8,13 @@ export default {
 		path: __dirname,
 		filename: 'server.js'
 	},
+	module: { loaders },
 	plugins: [
 		new w.DefinePlugin({
 			'process.env.NODE_ENV': '\'production\''
 		}),
-		new oz.DedupePlugin(),
-		new oz.OccurrenceOrderPlugin(),
-		new oz.UglifyJsPlugin({
-			compressor: { screw_ie8: true, warnings: false }
-		}),
-		new oz.AggressiveMergingPlugin()
+		...productionPlugins
 	],
 	target: 'node',
-	externals: [nodeExternals()],
-	module: { loaders }
+	externals: [nodeExternals()]
 };

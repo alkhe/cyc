@@ -1,14 +1,12 @@
-import { default as w, optimize as oz } from 'webpack';
-import path from 'path';
-import loaders from './loaders';
+import w, { optimize as oz } from 'webpack';
+import { clientOutput, loaders } from './constants';
 
 export default {
-	entry: ['webpack-hot-middleware/client', './src/js'],
-	output: {
-		path: path.join(__dirname, 'dist'),
-		filename: 'bundle.js',
-		publicPath: '/lib/'
+	entry: {
+		index: ['webpack-hot-middleware/client', './src/js/index']
 	},
+	output: clientOutput,
+	module: { loaders },
 	plugins: [
 		new w.DefinePlugin({
 			CLIENT: 'true'
@@ -17,6 +15,5 @@ export default {
 		new w.HotModuleReplacementPlugin(),
 		new w.NoErrorsPlugin()
 	],
-	devtool: 'eval',
-	module: { loaders }
+	devtool: 'eval'
 };

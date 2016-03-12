@@ -1,6 +1,6 @@
 import express from 'express';
 import jade from 'jade';
-import path from 'path';
+import { join } from 'path';
 import babelRequire from 'babel-require2';
 
 global.CLIENT = false;
@@ -9,7 +9,7 @@ global.CLIENT = false;
 
 // helper functions
 const here = process.cwd();
-const local = (...paths) => path.join(here, ...paths);
+const local = (...paths) => join(here, ...paths);
 
 const log = ::console.log;
 
@@ -39,6 +39,7 @@ import { run } from '@cycle/core';
 
 // takes a config and creates a server endpoint
 let endpoint = ({ app, page, route }) => {
+	let lib = './' + join('lib', app);
 	app = local('src/js', app);
 	page = local('src/html', page);
 	const template = jade.compileFile(page);
@@ -56,7 +57,7 @@ let endpoint = ({ app, page, route }) => {
 		run(program, drivers)
 			.sources.DOM
 			.forEach(ssr => {
-				res.end(template({ ssr }));
+				res.end(template({ ssr, lib }));
 			}, next);
 	});
 }
