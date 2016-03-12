@@ -1,4 +1,4 @@
-import { optimize as oz } from 'webpack';
+import { default as w, optimize as oz } from 'webpack';
 import path from 'path';
 import loaders from './loaders';
 
@@ -10,6 +10,9 @@ export default {
 		publicPath: '/lib/'
 	},
 	plugins: [
+		new w.DefinePlugin({
+			CLIENT: 'true'
+		}),
 		new oz.DedupePlugin(),
 		new oz.OccurrenceOrderPlugin(),
 		new oz.UglifyJsPlugin({

@@ -1,18 +1,28 @@
+/* global CLIENT */
 import { run } from '@cycle/core';
-import { makeDOMDriver } from '@cycle/dom';
+import { makeDOMDriver, makeHTMLDriver } from '@cycle/dom';
 import { restart, restartable } from 'cycle-restart';
 
-let main = require('./main').default;
+export let source = './main';
+export let drivers = {};
 
-const drivers = {
-	DOM: restartable(makeDOMDriver('#root'), { pauseSinksWhileReplaying: false })
-};
+if (CLIENT) {
+	drivers = {
+		DOM: restartable(makeDOMDriver('#root'), { pauseSinksWhileReplaying: false })
+	};
 
-const cycle = run(main, drivers);
+	let cycle = run(require('./main').default, drivers);
 
-if (module.hot) {
-	module.hot.accept('./main', () => {
-		main = require('./main').default;
-		restart(main, drivers, cycle);
-	});
+	if (module.hot) {
+		module.hot.accept('./main', () => {
+			restart(require('./main').default, drivers, cycle);
+		});
+	}
+}
+else {
+	let { join } = require('path');
+	source = require.resolve(join(__dirname, source));
+	drivers = {
+		DOM: makeHTMLDriver()
+	};
 }

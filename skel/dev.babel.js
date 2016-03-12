@@ -10,6 +10,9 @@ export default {
 		publicPath: '/lib/'
 	},
 	plugins: [
+		new w.DefinePlugin({
+			CLIENT: 'true'
+		}),
 		new oz.OccurrenceOrderPlugin(),
 		new w.HotModuleReplacementPlugin(),
 		new w.NoErrorsPlugin()
