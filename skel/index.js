@@ -3,6 +3,8 @@ import jade from 'jade';
 import path from 'path';
 import babelRequire from 'babel-require2';
 
+global.CLIENT = false;
+
 // Error.stackTraceLimit = Infinity;
 
 // helper functions
@@ -34,31 +36,24 @@ else {
 }
 
 import { run } from '@cycle/core';
-import { makeHTMLDriver } from '@cycle/dom';
-// `npm i @cycle/http` and mock this the same way as DOM
-// import { makeHTTPDriver } from '@cycle/http';
-
-// create mock DOM driver
-const DOM = makeHTMLDriver();
 
 // takes a config and creates a server endpoint
 let endpoint = ({ app, page, route }) => {
 	app = local('src/js', app);
 	page = local('src/html', page);
 	const template = jade.compileFile(page);
-	let program = babelRequire(app).default;
+	let { source, drivers } = babelRequire(app);
+
+	let program = babelRequire(source).default;
 
 	if (process.env.NODE_ENV !== 'production') {
 		// register program with hot rebuilder
-		require('./hot').accept(app, m => { program = m.default; });
+		require('./hot').accept(source, m => { program = m.default; });
 	}
-
-	// Cycle.run main function, closure necessary for reloading
-	const main = sources => program(sources);
 
 	router.get(route, (req, res, next) => {
 		log(`GET ${ req.path }`);
-		run(main, { DOM })
+		run(program, drivers)
 			.sources.DOM
 			.forEach(ssr => {
 				res.end(template({ ssr }));
@@ -69,7 +64,7 @@ let endpoint = ({ app, page, route }) => {
 
 // server configs
 [{
-	app: './main.js',
+	app: './index.js',
 	page: './index.jade',
 	route: '/'
 }].forEach(endpoint);
