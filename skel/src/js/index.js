@@ -15,7 +15,7 @@ if (CLIENT) {
 
 	if (module.hot) {
 		module.hot.accept('./main', () => {
-			restart(require('./main').default, drivers, cycle);
+			cycle = restart(require('./main').default, drivers, cycle);
 		});
 	}
 }
