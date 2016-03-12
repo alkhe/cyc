@@ -26,7 +26,4 @@ else {
 	};
 }
 
-export {
-	drivers,
-	source
-}
+export { drivers, source }
