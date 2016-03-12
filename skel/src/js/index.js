@@ -10,13 +10,11 @@ if (CLIENT) {
 		DOM: restartable(makeDOMDriver('#root'), { pauseSinksWhileReplaying: false })
 	};
 
-	let main = require('./main').default;
-	let cycle = run(main, drivers);
+	let cycle = run(require('./main').default, drivers);
 
 	if (module.hot) {
 		module.hot.accept('./main', () => {
-			main = require('./main').default;
-			restart(main, drivers, cycle);
+			restart(require('./main').default, drivers, cycle);
 		});
 	}
 }
