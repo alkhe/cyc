@@ -3,7 +3,8 @@ import { clientOutput, loaders } from './constants';
 
 export default {
 	entry: {
-		index: ['webpack-hot-middleware/client', './src/js/index']
+		index: ['webpack-hot-middleware/client', './src/js/index'],
+		about: ['webpack-hot-middleware/client', './src/js/about'],
 	},
 	output: clientOutput,
 	module: { loaders },

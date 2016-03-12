@@ -3,7 +3,8 @@ import { clientOutput, loaders, productionPlugins } from './constants';
 
 export default {
 	entry: {
-		index: './src/js'
+		index: './src/js',
+		about: './src/js/about'
 	},
 	output: clientOutput,
 	module: { loaders },

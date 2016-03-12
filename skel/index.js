@@ -9,10 +9,7 @@ global.CLIENT = false;
 
 // helper functions
 const here = process.cwd();
-const local = (...paths) => join(here, ...paths);
-
 const log = ::console.log;
-
 const port = process.env.PORT || 3000;
 const app = express();
 const router = express.Router();
@@ -37,19 +34,27 @@ else {
 
 import { run } from '@cycle/core';
 
+const appDir = './src/js',
+	pageDir = './src/html',
+	babelDefaults = {
+		sourceRoot: '/src/js',
+		ast: false,
+		comments: false,
+		compact: true
+	};
+
 // takes a config and creates a server endpoint
 let endpoint = ({ app, page, route }) => {
 	let lib = './' + join('lib', app);
-	app = local('src/js', app);
-	page = local('src/html', page);
+	app = './' + join(appDir, app)
+	page = './' + join(pageDir, page);
+
 	const template = jade.compileFile(page);
-	let { source, drivers } = babelRequire(app);
-
-	let program = babelRequire(source).default;
-
+	let { source, drivers } = babelRequire(app, { ...babelDefaults, filename: app });
+	let program = babelRequire(source, { ...babelDefaults, filename: source }).default;
 	if (process.env.NODE_ENV !== 'production') {
 		// register program with hot rebuilder
-		require('./hot').accept(source, m => { program = m.default; });
+		require('./hot').accept(source, { ...babelDefaults, filename: source }, m => { program = m.default; });
 	}
 
 	router.get(route, (req, res, next) => {
@@ -68,6 +73,10 @@ let endpoint = ({ app, page, route }) => {
 	app: './index.js',
 	page: './index.jade',
 	route: '/'
+}, {
+	app: './about.js',
+	page: './index.jade',
+	route: '/about'
 }].forEach(endpoint);
 
 app
