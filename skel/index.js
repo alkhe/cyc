@@ -35,6 +35,8 @@ else {
 
 import { run } from '@cycle/core';
 import { makeHTMLDriver } from '@cycle/dom';
+// `npm i @cycle/http` and mock this the same way as DOM
+// import { makeHTTPDriver } from '@cycle/http';
 
 // create mock DOM driver
 const DOM = makeHTMLDriver();
@@ -47,14 +49,15 @@ let endpoint = ({ app, page, route }) => {
 	let program = babelRequire(app).default;
 
 	if (process.env.NODE_ENV !== 'production') {
-		// register mvi file with hot rebuilder
+		// register program with hot rebuilder
 		require('./hot').accept(app, m => { program = m.default; });
 	}
 
-	// Cycle.run main function
-	const main = ({ DOM }) => ({ DOM: program(DOM) });
+	// Cycle.run main function, closure necessary for reloading
+	const main = sources => program(sources);
 
 	router.get(route, (req, res, next) => {
+		log(`GET ${ req.path }`);
 		run(main, { DOM })
 			.sources.DOM
 			.forEach(ssr => {
@@ -63,9 +66,10 @@ let endpoint = ({ app, page, route }) => {
 	});
 }
 
+
 // server configs
 [{
-	app: './mvi.js',
+	app: './main.js',
 	page: './index.jade',
 	route: '/'
 }].forEach(endpoint);
