@@ -8,7 +8,7 @@
 - production and development webpack configurations
 - project-wide babel transpilation
 - hot reloading with cycle-restart
-- dynamic isomorphic loading with babel-require2
+- dynamic isomorphic loading with dynamic-require
 - declarative server endpoints
 
 ## Installing
