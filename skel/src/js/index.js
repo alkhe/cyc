@@ -20,8 +20,6 @@ if (CLIENT) {
 	}
 }
 else {
-	let { join } = require('path');
-	source = require.resolve(join(__dirname, source));
 	drivers = {
 		DOM: makeHTMLDriver()
 	};

@@ -1,7 +1,7 @@
 import express from 'express';
 import jade from 'jade';
 import { join } from 'path';
-import babelRequire from 'babel-require2';
+import makeRequire from 'dynamic-require';
 
 global.CLIENT = false;
 
@@ -9,10 +9,18 @@ global.CLIENT = false;
 
 // helper functions
 const here = process.cwd();
+const localJoin = (...args) => './' + join(...args);
 const log = ::console.log;
 const port = process.env.PORT || 3000;
 const app = express();
 const router = express.Router();
+
+let hotAccept;
+const dynamicRequire = makeRequire(here, {
+	ast: false,
+	comments: false,
+	compact: true
+});
 
 if (process.env.NODE_ENV === 'production') {
 	log('[pro]');
@@ -30,31 +38,29 @@ else {
 		noInfo: true,
 		publicPath: config.output.publicPath
 	})).use(hot(compiler));
+	hotAccept = require('./hot').make(dynamicRequire);
 }
 
 import { run } from '@cycle/core';
 
-const appDir = './src/js',
-	pageDir = './src/html',
-	babelDefaults = {
-		sourceRoot: '/src/js',
-		ast: false,
-		comments: false,
-		compact: true
-	};
+const appDir = 'src/js',
+	pageDir = 'src/html';
 
 // takes a config and creates a server endpoint
 let endpoint = ({ app, page, route }) => {
-	let lib = './' + join('lib', app);
-	app = './' + join(appDir, app)
-	page = './' + join(pageDir, page);
+	let lib = localJoin('lib', app);
+	app = localJoin(appDir, app)
+	page = localJoin(pageDir, page);
 
 	const template = jade.compileFile(page);
-	let { source, drivers } = babelRequire(app, { ...babelDefaults, filename: app });
-	let program = babelRequire(source, { ...babelDefaults, filename: source }).default;
+	let { source, drivers } = dynamicRequire(app);
+	source = localJoin(appDir, source);
+	let program = dynamicRequire(source).default;
+
 	if (process.env.NODE_ENV !== 'production') {
 		// register program with hot rebuilder
-		require('./hot').accept(source, { ...babelDefaults, filename: source }, m => { program = m.default; });
+		console.log(source);
+		hotAccept(source, m => { program = m.default; });
 	}
 
 	router.get(route, (req, res, next) => {
