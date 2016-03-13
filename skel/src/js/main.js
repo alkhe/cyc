@@ -1,13 +1,6 @@
 import { Observable as $ } from 'rx';
 import { div, br, label, input } from '@cycle/dom';
-
-// DOM event helpers
-// put them in a seperate file if you wish to reuse them
-const Event = (ev, mod = x => x) =>
-	el => mod(el.events(ev));
-
-const Input = Event('input', x => x.pluck('target', 'value'));
-// const Button = Event('click');
+import { Input } from './helpers';
 
 export default ({ DOM }) => {
 	let height$ = Input(DOM.select('#Height'))
