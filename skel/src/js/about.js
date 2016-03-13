@@ -1,7 +1,7 @@
 /* global CLIENT */
 import { run } from '@cycle/core';
 import { makeDOMDriver, makeHTMLDriver } from '@cycle/dom';
-import { restart, restartable } from 'cycle-restart';
+import { rerunner, restartable } from 'cycle-restart';
 
 export let source = './aboutmain';
 export let drivers = {};
@@ -11,11 +11,12 @@ if (CLIENT) {
 		DOM: restartable(makeDOMDriver('#root'), { pauseSinksWhileReplaying: false })
 	};
 
-	let cycle = run(require('./aboutmain').default, drivers);
+	let rerun = rerunner(run);
+	rerun(require('./aboutmain').default, drivers);
 
 	if (module.hot) {
 		module.hot.accept('./aboutmain', () => {
-			cycle = restart(require('./aboutmain').default, drivers, cycle);
+			rerun(require('./aboutmain').default, drivers);
 		});
 	}
 }

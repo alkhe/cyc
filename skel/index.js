@@ -59,7 +59,6 @@ let endpoint = ({ app, page, route }) => {
 
 	if (process.env.NODE_ENV !== 'production') {
 		// register program with hot rebuilder
-		console.log(source);
 		hotAccept(source, m => { program = m.default; });
 	}
 
