@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@cycle/core": "^6.0.3",
-    "@cycle/dom": "^9.1.0",
+    "@cycle/dom": "^9.2.2",
     "@cycle/isolate": "^1.2.0",
     "compression": "^1.6.1",
     "cycle-restart": "0.0.14",
