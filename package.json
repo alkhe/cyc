@@ -1,6 +1,6 @@
 {
   "name": "cyc-cli",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "A fully featured Cycle.js starter.",
   "preferGlobal": true,
   "main": "index.js",
