@@ -1,11 +1,8 @@
 import w, { optimize as oz } from 'webpack';
-import { clientOutput, loaders } from './constants';
+import { entry, clientOutput, loaders } from './constants';
 
 export default {
-	entry: {
-		index: ['webpack-hot-middleware/client', './src/js/index'],
-		about: ['webpack-hot-middleware/client', './src/js/about'],
-	},
+	entry,
 	output: clientOutput,
 	module: { loaders },
 	plugins: [

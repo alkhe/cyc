@@ -3,25 +3,26 @@ import { run } from '@cycle/core';
 import { makeDOMDriver, makeHTMLDriver } from '@cycle/dom';
 import { rerunner, restartable } from 'cycle-restart';
 
-export let source = './main';
-export let drivers = {};
+let main = require('./main').default;
+
+export default () =>
+	run(main, {
+		DOM: makeHTMLDriver()
+	});
 
 if (CLIENT) {
-	drivers = {
+	let drivers = {
 		DOM: restartable(makeDOMDriver('#root'), { pauseSinksWhileReplaying: false })
 	};
 
 	let rerun = rerunner(run);
-	rerun(require('./main').default, drivers);
+	rerun(main, drivers);
 
 	if (module.hot) {
-		module.hot.accept('./main', () => {
-			rerun(require('./main').default, drivers);
+		require('webpack-hot-middleware/client');
+		module.hot.accept(() => {
+			main = require('./main').default;
+			rerun(main, drivers);
 		});
 	}
-}
-else {
-	drivers = {
-		DOM: makeHTMLDriver()
-	};
 }

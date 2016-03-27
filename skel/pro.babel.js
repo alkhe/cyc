@@ -1,17 +1,24 @@
 import w from 'webpack';
-import { clientOutput, loaders, productionPlugins } from './constants';
+import { entry, clientOutput, loaders, productionPlugins } from './constants';
+import { join } from 'path';
+import { writeFileSync } from 'fs';
 
 export default {
-	entry: {
-		index: './src/js',
-		about: './src/js/about'
-	},
+	entry,
 	output: clientOutput,
 	module: { loaders },
 	plugins: [
 		new w.DefinePlugin({
 			CLIENT: 'true'
 		}),
-		...productionPlugins
+		...productionPlugins,
+		function() {
+			this.plugin('done', result =>
+				writeFileSync(
+					join(__dirname, 'hashes.json'),
+					JSON.stringify(result.toJson().assetsByChunkName)
+				)
+			);
+		}
 	]
 };

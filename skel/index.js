@@ -1,6 +1,5 @@
 import express from 'express';
 import jade from 'jade';
-import { join } from 'path';
 import makeRequire from 'dynamic-require';
 
 global.CLIENT = false;
@@ -9,13 +8,13 @@ global.CLIENT = false;
 
 // helper functions
 const here = process.cwd();
-const localJoin = (...args) => './' + join(...args);
 const log = ::console.log;
 const port = process.env.PORT || 3000;
 const app = express();
 const router = express.Router();
 
-let hotAccept;
+let hashes = {};
+let dev = {};
 const dynamicRequire = makeRequire(here, {
 	ast: false,
 	comments: false,
@@ -25,6 +24,8 @@ const dynamicRequire = makeRequire(here, {
 if (process.env.NODE_ENV === 'production') {
 	log('[pro]');
 	app.use(require('compression')());
+	let { readFileSync } = require('fs');
+	hashes = JSON.parse(readFileSync('./hashes.json'));
 }
 else {
 	log('[dev]');
@@ -38,51 +39,37 @@ else {
 		noInfo: true,
 		publicPath: config.output.publicPath
 	})).use(hot(compiler));
-	hotAccept = require('./hot').make(dynamicRequire);
+	dev.hotAccept = require('./hot')
+		.make(compiler, dynamicRequire, next => hashes = next);
 }
 
-import { run } from '@cycle/core';
-
-const appDir = 'src/js',
-	pageDir = 'src/html';
+let getFile = id => {
+	let entry = hashes[id];
+	return 'lib/' + (entry instanceof Array ? entry[0] : entry);
+};
 
 // takes a config and creates a server endpoint
-let endpoint = ({ app, page, route }) => {
-	let lib = localJoin('lib', app);
-	app = localJoin(appDir, app)
-	page = localJoin(pageDir, page);
-
+let endpoint = ({ app, page, route, id }) => {
 	const template = jade.compileFile(page);
-	let { source, drivers } = dynamicRequire(app);
-	source = localJoin(appDir, source);
-	let program = dynamicRequire(source).default;
+	let program = dynamicRequire(app).default;
 
 	if (process.env.NODE_ENV !== 'production') {
 		// register program with hot rebuilder
-		hotAccept(source, m => { program = m.default; });
+		dev.hotAccept(app, m => { program = m.default; });
 	}
 
 	router.get(route, (req, res, next) => {
 		log(`GET ${ req.path }`);
-		run(program, drivers)
+		program()
 			.sources.DOM
 			.forEach(ssr => {
-				res.end(template({ ssr, lib }));
+				res.end(template({ ssr, lib: getFile(id) }));
 			}, next);
 	});
 }
 
-
-// server configs
-[{
-	app: './index.js',
-	page: './index.jade',
-	route: '/'
-}, {
-	app: './about.js',
-	page: './index.jade',
-	route: '/about'
-}].forEach(endpoint);
+import routes from './routes';
+routes.forEach(endpoint);
 
 app
 	.use(router)
