@@ -4,7 +4,7 @@
 [![https://img.shields.io/npm/dt/cyc-cli.svg?style=flat-square](https://img.shields.io/npm/dt/cyc-cli.svg?style=flat-square)](https://www.npmjs.com/package/cyc-cli)
 [![https://img.shields.io/npm/l/cyc-cli.svg?style=flat-square](https://img.shields.io/npm/l/cyc-cli.svg?style=flat-square)](https://www.npmjs.com/package/cyc-cli)
 
-*cyc* provides an intuitive and hassle-free starting point for Cycle.js applications. It comes with production and development webpack configurations, dynamic hot reloading, Babel transpilation, and an isomorphic express server. *cyc* is designed with convenience and scalability in mind.
+*cyc* provides an intuitive and hassle-free starting point for Cycle.js applications. It comes with production and development webpack configurations, dynamic hot reloading, Babel transpilation, unintrusive long-term caching, and an isomorphic express server. The *cyc* boilerplate is scalable, convenient, and highly modular.
 
 [View the live preview.](http://edge.github.io/cyc/)
 
@@ -14,6 +14,7 @@
 - hot reloading with cycle-restart
 - dynamic isomorphic loading with dynamic-require
 - declarative server endpoints
+- long-term caching
 
 ## Installing
 

@@ -14,7 +14,7 @@ const app = express();
 const router = express.Router();
 
 let hashes = {};
-let hotAccept;
+let dev = {};
 const dynamicRequire = makeRequire(here, {
 	ast: false,
 	comments: false,
@@ -39,7 +39,7 @@ else {
 		noInfo: true,
 		publicPath: config.output.publicPath
 	})).use(hot(compiler));
-	hotAccept = require('./hot')
+	dev.hotAccept = require('./hot')
 		.make(compiler, dynamicRequire, next => hashes = next);
 }
 
@@ -55,7 +55,7 @@ let endpoint = ({ app, page, route, id }) => {
 
 	if (process.env.NODE_ENV !== 'production') {
 		// register program with hot rebuilder
-		hotAccept(app, m => { program = m.default; });
+		dev.hotAccept(app, m => { program = m.default; });
 	}
 
 	router.get(route, (req, res, next) => {
