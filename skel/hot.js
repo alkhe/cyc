@@ -48,16 +48,17 @@ let resolveEntries = (built, modules) => {
 	return entries;
 }
 
-export let make = (compiler, dynamicRequire) => {
+export let make = (compiler, dynamicRequire, updateHashes) => {
 	let first = true;
 	let registry = {};
 
 	compiler.plugin('done', result => {
+		let stats = result.toJson();
 		if (first) {
 			first = false;
 		}
 		else {
-			let { modules } = result.toJson();
+			let { modules } = stats;
 
 			let built = modules.filter(a => a.built).map(a => a.name);
 			built.forEach(deleteCache);
@@ -74,6 +75,8 @@ export let make = (compiler, dynamicRequire) => {
 					}
 				});
 		}
+		
+		updateHashes(stats.assetsByChunkName);
 	});
 
 	return (src, callback) => {

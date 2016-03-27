@@ -4,9 +4,9 @@ import routes from './routes';
 
 let routesToEntry = routes => {
 	let entries = {};
-	for (let i = 0; i < routes.length; i++) {
-		entries[i] = routes[i].app;
-	}
+	routes.forEach(route => {
+		entries[route.id] = route.app;
+	});
 	return entries;
 };
 
@@ -14,7 +14,7 @@ const loaders = [{ test: /\.js$/, loader: 'babel-loader' }];
 
 const clientOutput = {
 	path: join(__dirname, 'public/lib'),
-	filename: '[name].js',
+	filename: '[hash]-[name].js',
 	publicPath: '/lib/'
 };
 

@@ -1,5 +1,7 @@
 import w from 'webpack';
 import { entry, clientOutput, loaders, productionPlugins } from './constants';
+import { join } from 'path';
+import { writeFileSync } from 'fs';
 
 export default {
 	entry,
@@ -9,6 +11,14 @@ export default {
 		new w.DefinePlugin({
 			CLIENT: 'true'
 		}),
-		...productionPlugins
+		...productionPlugins,
+		function() {
+			this.plugin('done', result =>
+				writeFileSync(
+					join(__dirname, 'hashes.json'),
+					JSON.stringify(result.toJson().assetsByChunkName)
+				)
+			);
+		}
 	]
 };

@@ -13,6 +13,7 @@ const port = process.env.PORT || 3000;
 const app = express();
 const router = express.Router();
 
+let hashes = {};
 let hotAccept;
 const dynamicRequire = makeRequire(here, {
 	ast: false,
@@ -23,6 +24,8 @@ const dynamicRequire = makeRequire(here, {
 if (process.env.NODE_ENV === 'production') {
 	log('[pro]');
 	app.use(require('compression')());
+	let { readFileSync } = require('fs');
+	hashes = JSON.parse(readFileSync('./hashes.json'));
 }
 else {
 	log('[dev]');
@@ -36,19 +39,17 @@ else {
 		noInfo: true,
 		publicPath: config.output.publicPath
 	})).use(hot(compiler));
-	hotAccept = require('./hot').make(compiler, dynamicRequire);
+	hotAccept = require('./hot')
+		.make(compiler, dynamicRequire, next => hashes = next);
 }
 
-/*
-compiler.plugin('done', result => {
-	let stats = result.toJson().assetsByChunkName;
-	console.log(stats.index instanceof Array)
-	console.log(stats.about instanceof Array)
-})
-*/
+let getFile = id => {
+	let entry = hashes[id];
+	return 'lib/' + (entry instanceof Array ? entry[0] : entry);
+};
 
 // takes a config and creates a server endpoint
-let endpoint = ({ app, page, route, lib }) => {
+let endpoint = ({ app, page, route, id }) => {
 	const template = jade.compileFile(page);
 	let program = dynamicRequire(app).default;
 
@@ -62,7 +63,7 @@ let endpoint = ({ app, page, route, lib }) => {
 		program()
 			.sources.DOM
 			.forEach(ssr => {
-				res.end(template({ ssr, lib }));
+				res.end(template({ ssr, lib: getFile(id) }));
 			}, next);
 	});
 }

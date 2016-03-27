@@ -3,7 +3,6 @@ import { join } from 'path';
 const localJoin = (...args) => './' + join(...args);
 const appDir = 'src/js';
 const pageDir = 'src/html';
-const libDir = 'lib';
 
 /* endpoint configs
 app relative to ./src/js
@@ -17,9 +16,9 @@ export default [{
 	app: 'about.js',
 	page: 'index.jade',
 	route: '/about'
-}].map(({ app, page, ...rest }) => ({
-	lib: localJoin(libDir, app),
+}].map(({ app, page, ...rest }, index) => ({
 	app: localJoin(appDir, app),
 	page: localJoin(pageDir, page),
+	id: index,
 	...rest
 }));
