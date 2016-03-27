@@ -1,6 +1,5 @@
 import express from 'express';
 import jade from 'jade';
-import { join } from 'path';
 import makeRequire from 'dynamic-require';
 
 global.CLIENT = false;
@@ -9,7 +8,6 @@ global.CLIENT = false;
 
 // helper functions
 const here = process.cwd();
-const localJoin = (...args) => './' + join(...args);
 const log = ::console.log;
 const port = process.env.PORT || 3000;
 const app = express();
@@ -38,33 +36,30 @@ else {
 		noInfo: true,
 		publicPath: config.output.publicPath
 	})).use(hot(compiler));
-	hotAccept = require('./hot').make(dynamicRequire);
+	hotAccept = require('./hot').make(compiler, dynamicRequire);
 }
 
-import { run } from '@cycle/core';
-
-const appDir = 'src/js',
-	pageDir = 'src/html';
+/*
+compiler.plugin('done', result => {
+	let stats = result.toJson().assetsByChunkName;
+	console.log(stats.index instanceof Array)
+	console.log(stats.about instanceof Array)
+})
+*/
 
 // takes a config and creates a server endpoint
-let endpoint = ({ app, page, route }) => {
-	let lib = localJoin('lib', app);
-	app = localJoin(appDir, app)
-	page = localJoin(pageDir, page);
-
+let endpoint = ({ app, page, route, lib }) => {
 	const template = jade.compileFile(page);
-	let { source, drivers } = dynamicRequire(app);
-	source = localJoin(appDir, source);
-	let program = dynamicRequire(source).default;
+	let program = dynamicRequire(app).default;
 
 	if (process.env.NODE_ENV !== 'production') {
 		// register program with hot rebuilder
-		hotAccept(source, m => { program = m.default; });
+		hotAccept(app, m => { program = m.default; });
 	}
 
 	router.get(route, (req, res, next) => {
 		log(`GET ${ req.path }`);
-		run(program, drivers)
+		program()
 			.sources.DOM
 			.forEach(ssr => {
 				res.end(template({ ssr, lib }));
@@ -72,17 +67,8 @@ let endpoint = ({ app, page, route }) => {
 	});
 }
 
-
-// server configs
-[{
-	app: './index.js',
-	page: './index.jade',
-	route: '/'
-}, {
-	app: './about.js',
-	page: './index.jade',
-	route: '/about'
-}].forEach(endpoint);
+import routes from './routes';
+routes.forEach(endpoint);
 
 app
 	.use(router)

@@ -1,11 +1,8 @@
 import w from 'webpack';
-import { clientOutput, loaders, productionPlugins } from './constants';
+import { entry, clientOutput, loaders, productionPlugins } from './constants';
 
 export default {
-	entry: {
-		index: './src/js',
-		about: './src/js/about'
-	},
+	entry,
 	output: clientOutput,
 	module: { loaders },
 	plugins: [
