@@ -75,9 +75,9 @@ app
 	.use(router)
 	.use(express.static('./public'));
 
-app.listen(port, 'localhost', err => {
+app.listen(port, '::1', err => {
 	if (err) {
 		return console.err(err);
 	}
-	log(`listening on http://localhost:${ port }`);
+	log(`listening on http://::1:${ port }`);
 });
