@@ -40,25 +40,23 @@ else {
 		publicPath: config.output.publicPath
 	})).use(hot(compiler));
 	devopt.hotAccept = require('./hot')
-		.make(compiler, dynamicRequire, next => hashes = next);
+		.make(compiler, dynamicRequire, next => {
+			for (let id in next) {
+				let entry = next[id];
+				hashes[id] = entry instanceof Array ? entry[0] : entry;
+			}
+		});
 }
-
-let getFile = id => {
-	let entry = hashes[id];
-	return 'lib/' + (entry instanceof Array ? entry[0] : entry);
-};
 
 // takes a config and creates a server endpoint
 let endpoint = ({ app, page, route, id }) => {
 	const template = jade.compileFile(page);
 	let program = dynamicRequire(app).default;
-	let lib = getFile(id);
 
 	if (process.env.NODE_ENV !== 'production') {
 		// register program with hot rebuilder
 		devopt.hotAccept(app, m => {
 			program = m.default;
-			lib = getFile(id);
 		});
 	}
 
@@ -67,7 +65,7 @@ let endpoint = ({ app, page, route, id }) => {
 		program()
 			.sources.DOM
 			.forEach(ssr => {
-				res.end(template({ ssr, lib }));
+				res.end(template({ ssr, lib: 'lib/' + hashes[id] }));
 			}, next);
 	});
 }
