@@ -5,20 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": ":",
-    "_dev": "babel-node .",
-    "_start": "node server.js",
-    "_mkserver": "webpack -p --config ./srv.babel.js",
-    "_mkclient": "webpack -p --config ./pro.babel.js",
-    "dev": "NODE_ENV=development npm run _dev",
-    "start": "NODE_ENV=production npm run _start",
-    "mkserver": "NODE_ENV=production npm run _mkserver",
-    "mkclient": "NODE_ENV=production npm run _mkclient",
-    "mk": "npm run mkserver && npm run mkclient",
-    "wdev": "set NODE_ENV=development&& npm run _dev",
-    "wstart": "set NODE_ENV=production&& npm run _start",
-    "wmkserver": "set NODE_ENV=production&& npm run _mkserver",
-    "wmkclient": "set NODE_ENV=development&& npm run _mkclient",
-    "wmk": "npm run wmkserver && npm run wmkclient"
+    "dev": "cross-env NODE_ENV=development babel-node .",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "mkserver": "cross-env NODE_ENV=production webpack -p --config srv.babel.js",
+    "mkclient": "cross-env NODE_ENV=production webpack -p --config pro.babel.js",
+    "mk": "npm run mkserver && npm run mkclient"
   },
   "keywords": [
     "--name--"
@@ -42,6 +33,7 @@
     "@cycle/dom": "^9.2.2",
     "@cycle/isolate": "^1.2.0",
     "compression": "^1.6.1",
+    "cross-env": "^1.0.7",
     "cycle-restart": "0.0.14",
     "dynamic-require": "^6.7.7",
     "express": "^4.13.4",
