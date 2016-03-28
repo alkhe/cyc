@@ -56,7 +56,7 @@ Then, you can run the server in development.
 $ npm run dev
 ```
 
-Have a look in `./src/js/` and play around with the files. An index page with a BMI calculator and a simple about page are automatically generated.
+Have a look in `./src/js/` and play around with the files. An index page with a BMI calculator and a simple about page are automatically generated. Each file is hot reloadable.
 
 You can also build the server and run it in production. Compiling the client bundles may take a while, because this build step utilizes heavy optimization.
 
