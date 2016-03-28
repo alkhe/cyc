@@ -1,6 +1,6 @@
 import express from 'express';
 import jade from 'jade';
-import makeRequire from 'dynamic-require';
+import { babel } from 'dynamic-require';
 
 global.CLIENT = false;
 
@@ -15,7 +15,7 @@ const router = express.Router();
 
 let hashes = {};
 let devopt = {};
-const dynamicRequire = makeRequire(here, {
+const dynamicRequire = babel(here, {
 	ast: false,
 	comments: false,
 	compact: true
@@ -52,10 +52,14 @@ let getFile = id => {
 let endpoint = ({ app, page, route, id }) => {
 	const template = jade.compileFile(page);
 	let program = dynamicRequire(app).default;
+	let lib = getFile(id);
 
 	if (process.env.NODE_ENV !== 'production') {
 		// register program with hot rebuilder
-		devopt.hotAccept(app, m => { program = m.default; });
+		devopt.hotAccept(app, m => {
+			program = m.default;
+			lib = getFile(id);
+		});
 	}
 
 	router.get(route, (req, res, next) => {
@@ -63,7 +67,7 @@ let endpoint = ({ app, page, route, id }) => {
 		program()
 			.sources.DOM
 			.forEach(ssr => {
-				res.end(template({ ssr, lib: getFile(id) }));
+				res.end(template({ ssr, lib }));
 			}, next);
 	});
 }

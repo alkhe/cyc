@@ -6,7 +6,7 @@
 
 *cyc* provides an intuitive and hassle-free starting point for Cycle.js applications. It comes with production and development webpack configurations, dynamic hot reloading, Babel transpilation, unintrusive long-term caching, and an isomorphic express server. The *cyc* boilerplate is scalable, convenient, and highly modular.
 
-[View the live preview.](http://edge.github.io/cyc/)
+[Live Preview](http://edge.github.io/cyc/)
 
 ## Features
 - production and development webpack configurations
@@ -50,12 +50,36 @@ $ PORT=80 npm start
 
 ## npm scripts
 
-Unix:
 - `dev` start dev server
 - `start` start production server (requires built server and client)
 - `mkserver` build production server (fast)
 - `mkclient` build production client (slow)
 - `mk` build production server and client
 
-Windows:
-- put `w` before any command listed above (e.g. `wdev`)
+## How It Works
+
+*cyc* has some special plumbing that allows much of its code to be flexible and freely run in dev or production, client or server. This feature required close attention to details during the design process.
+
+### Server, Client, and Isomorphism
+
+In development, the server is run entirely with `babel-node`, provided by `babel-cli`. In production, the server (output by the `mkserver` build step) is run with the default `node` installation. Application modules, or **programs**, are parsed with an isolated `babel-register`ed require. Entry-level modules can check the global `CLIENT` variable to determine whether to use server or client logic. This is set to false on the server with `global.CLIENT = false`, while the webpack configuration sets it to `true` with a `DefinePlugin`.
+
+### Dynamic Require
+
+Allowing the server to be built for production is one of the main design goals, but due to webpack's poor support for dynamic requires (i.e. `require(variable)`), some special tooling is required. The `dynamic-require` package provides dynamic requires, and supports babel transpilation.
+
+### Request Pipeline
+
+For each request, the program is run, and its virtual DOM output is rendered and wrapped in an HTML template. A reference to the actual bundle is then placed at the end of the file. When the response reaches the client, the rendered content is immediately available while the program is loading. Once loaded, the program will bootstrap itself, and the application will be responsive.
+
+### Isomorphic Reloading
+
+The server can hot reload modules for server-side rendering, just as the client can with webpack-hmr. Implemented in `hot.js`, the reloading mechanism hooks into the webpack compiler object in the same way that `webpack-hot-middleware` does. When a program dependency is modified, invalidation is trickled down the tree all the way to the entry-level module. Invalidated modules are deleted from the require cache, and re-required with `dynamic-require`, making the updated version of the program available.
+
+### Routing
+
+Routes are configured in the `routes.js` file. Each configurable route contains a reference to the index file of its respective program, jade template, and route path. These routes are then transformed to normalize paths and add compilation metadata for webpack. Each route is then linked to the server request handler. The routing configuration can be customized to make other specific logic available in the request handler.
+
+### Long-Term Caching
+
+The server contains a `hashes` object that maps route IDs to their respective bundles. In development, this is reloaded in memory whenever a new compilation is performed. In production, the hashes are read from the `hashes.json` file produced by the `mkclient` build step.
