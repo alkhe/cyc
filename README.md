@@ -8,6 +8,19 @@
 
 [Live Preview](http://edge.github.io/cyc/)
 
+## Contents
+- [Features](#features)
+- [Installing](#installing)
+- [Getting Started](#getting-started)
+- [npm scripts](#npm-scripts)
+- [How It Works](#how-it-works)
+  - [Server, Client, and Isomorphism](#server-client-and-isomorphism)
+  - [Dynamic Require](#dynamic-require)
+  - [Request Pipeline](#request-pipeline)
+  - [Isomorphic Reloading](#isomorphic-reloading)
+  - [Routing](#routing)
+  - [Long-Term Caching](#long-term-caching)
+
 ## Features
 - production and development webpack configurations
 - project-wide babel transpilation
@@ -22,7 +35,9 @@
 $ npm install -g cyc-cli babel-cli
 ```
 
-## Creating a Project
+## Getting Started
+
+Run `cyc` in any directory, and you will be prompted for the name of your project, and what directory to put it in. The directory name defaults to the project name.
 
 ```sh
 $ cyc
@@ -35,14 +50,16 @@ $ cd myapp
 $ npm i
 ```
 
-## Running a Project
+Then, you can run the server in development.
 
-**Development**
 ```sh
 $ npm run dev
 ```
 
-**Production**
+Have a look in `./src/js/` and play around with the files. An index page with a BMI calculator and a simple about page are automatically generated.
+
+You can also build the server and run it in production. Compiling the client bundles may take a while, because this build step utilizes heavy optimization.
+
 ```sh
 $ npm run mk
 $ PORT=80 npm start
