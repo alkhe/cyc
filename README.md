@@ -65,6 +65,8 @@ $ npm run mk
 $ PORT=80 npm start
 ```
 
+Note: When actually hosting a live website, you should change `::1` to `0.0.0.0` or `::`.
+
 ## npm scripts
 
 - `dev` start dev server
