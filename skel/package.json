@@ -38,6 +38,7 @@
     "dynamic-require": "^6.7.9",
     "express": "^4.13.4",
     "jade": "^1.11.0",
+    "morgan": "^1.7.0",
     "rx": "^4.1.0",
     "virtual-dom": "^2.1.1"
   },

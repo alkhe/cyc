@@ -1,6 +1,7 @@
 import express from 'express';
 import jade from 'jade';
 import { babel } from 'dynamic-require';
+import morgan from 'morgan';
 
 global.CLIENT = false;
 
@@ -10,7 +11,11 @@ global.CLIENT = false;
 const here = process.cwd();
 const log = ::console.log;
 const port = process.env.PORT || 3000;
-const app = express();
+const app = express()
+	.use(morgan(process.env.NODE_ENV === 'production'
+		? '[:date[web]] :remote-addr :method/:http-version :url -- :status :response-time ms'
+		: 'dev'
+	));
 const router = express.Router();
 
 let hashes = {};
@@ -55,19 +60,16 @@ let endpoint = ({ app, page, route, id }) => {
 
 	if (process.env.NODE_ENV !== 'production') {
 		// register program with hot rebuilder
-		devopt.hotAccept(app, m => {
-			program = m.default;
-		});
+		devopt.hotAccept(app, m => program = m.default);
 	}
 
-	router.get(route, (req, res, next) => {
-		log(`GET ${ req.path }`);
+	router.get(route, (req, res) =>
 		program()
 			.sources.DOM
-			.forEach(ssr => {
-				res.end(template({ ssr, lib: 'lib/' + hashes[id] }));
-			}, next);
-	});
+			.forEach(ssr =>
+				res.send(template({ ssr, lib: 'lib/' + hashes[id] }))
+			)
+	);
 }
 
 import routes from './routes';
