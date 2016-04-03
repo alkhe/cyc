@@ -7,7 +7,7 @@ global.CLIENT = false;
 
 // Error.stackTraceLimit = Infinity;
 
-// helper functions
+// helpers and constants
 const here = process.cwd();
 const log = ::console.log;
 const port = process.env.PORT || 3000;
@@ -20,11 +20,7 @@ const router = express.Router();
 
 let hashes = {};
 let devopt = {};
-const dynamicRequire = babel(here, {
-	ast: false,
-	comments: false,
-	compact: true
-});
+const dynamicRequire = babel(here);
 
 if (process.env.NODE_ENV === 'production') {
 	log('[pro]');
