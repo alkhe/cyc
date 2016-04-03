@@ -35,7 +35,7 @@
     "compression": "^1.6.1",
     "cross-env": "^1.0.7",
     "cycle-restart": "0.0.14",
-    "dynamic-require": "^6.7.9",
+    "dynamic-require": "^6.7.10",
     "express": "^4.13.4",
     "jade": "^1.11.0",
     "morgan": "^1.7.0",
