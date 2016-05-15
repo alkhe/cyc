@@ -97,7 +97,7 @@ The server can hot reload modules for server-side rendering, just as the client 
 
 ### Routing
 
-Routes are configured in the `routes.js` file. Each configurable route contains a reference to the index file of its respective program, jade template, and route path. These routes are then transformed to normalize paths and add compilation metadata for webpack. Each route is then linked to the server request handler. The routing configuration can be customized to make other specific logic available in the request handler.
+Routes are configured in the `routes.js` file. Each configurable route contains a reference to the index file of its respective program, pug (formerly jade) template, and route path. These routes are then transformed to normalize paths and add compilation metadata for webpack. Each route is then linked to the server request handler. The routing configuration can be customized to make other specific logic available in the request handler.
 
 ### Long-Term Caching
 
