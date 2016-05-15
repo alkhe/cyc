@@ -16,9 +16,9 @@ export default [{
 	app: 'about.js',
 	page: 'index.pug',
 	route: '/about'
-}].map(({ app, page, ...rest }, index) => ({
+}].map(({ app, page, ...rest }, id) => ({
 	app: localJoin(appDir, app),
 	page: localJoin(pageDir, page),
-	id: index,
+	id,
 	...rest
 }));

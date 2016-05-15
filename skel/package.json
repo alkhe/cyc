@@ -7,8 +7,8 @@
     "test": ":",
     "dev": "cross-env NODE_ENV=development babel-node .",
     "start": "cross-env NODE_ENV=production node server.js",
-    "mkserver": "cross-env NODE_ENV=production webpack -p --config srv.babel.js",
-    "mkclient": "cross-env NODE_ENV=production webpack -p --config pro.babel.js",
+    "mkserver": "cross-env NODE_ENV=production webpack -p --config wp.srv.babel.js",
+    "mkclient": "cross-env NODE_ENV=production webpack -p --config wp.pro.babel.js",
     "mk": "npm run mkserver && npm run mkclient"
   },
   "keywords": [

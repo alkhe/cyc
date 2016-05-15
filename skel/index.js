@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'production') {
 else {
 	log('[dev]');
 	// use dev compilation and hot reloading
-	const config = require('./dev.babel').default,
+	const config = require('./wp.dev.babel').default,
 		compiler = require('webpack')(config),
 		dev = require('webpack-dev-middleware'),
 		hot = require('webpack-hot-middleware');

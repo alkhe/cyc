@@ -40,7 +40,7 @@ let resolveEntries = (built, modules) => {
 
 		children = commitEntries(built);
 		children.forEach(deleteCache);
-	};
+	}
 
 	entries = uniq(entries);
 	entries.forEach(deleteCache);
@@ -75,7 +75,7 @@ export let make = (compiler, dynamicRequire, updateHashes) => {
 					}
 				});
 		}
-		
+
 		updateHashes(stats.assetsByChunkName);
 	});
 
