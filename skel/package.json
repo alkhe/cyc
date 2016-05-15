@@ -37,8 +37,8 @@
     "cycle-restart": "0.0.14",
     "dynamic-require": "^6.7.10",
     "express": "^4.13.4",
-    "jade": "^1.11.0",
     "morgan": "^1.7.0",
+    "pug": "^2.0.0-alpha7",
     "rx": "^4.1.0",
     "virtual-dom": "^2.1.1"
   },

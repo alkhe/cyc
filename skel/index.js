@@ -1,5 +1,5 @@
 import express from 'express';
-import jade from 'jade';
+import pug from 'pug';
 import { babel } from 'dynamic-require';
 import morgan from 'morgan';
 
@@ -51,7 +51,7 @@ else {
 
 // takes a config and creates a server endpoint
 let endpoint = ({ app, page, route, id }) => {
-	const template = jade.compileFile(page);
+	const template = pug.compileFile(page);
 	let program = dynamicRequire(app).default;
 
 	if (process.env.NODE_ENV !== 'production') {

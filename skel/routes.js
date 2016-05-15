@@ -10,11 +10,11 @@ page relative to ./src/html
 */
 export default [{
 	app: 'index.js',
-	page: 'index.jade',
+	page: 'index.pug',
 	route: '/'
 }, {
 	app: 'about.js',
-	page: 'index.jade',
+	page: 'index.pug',
 	route: '/about'
 }].map(({ app, page, ...rest }, index) => ({
 	app: localJoin(appDir, app),
