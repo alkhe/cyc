@@ -20,6 +20,7 @@
     "babel-core": "^6.10.4",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
+    "babel-preset-es2016": "^6.11.0",
     "babel-preset-stage-0": "^6.5.0",
     "chokidar": "^1.6.0",
     "lodash.uniq": "^4.3.0",
@@ -29,9 +30,10 @@
     "webpack-node-externals": "^1.2.0"
   },
   "dependencies": {
-    "@cycle/core": "^7.0.0",
+    "@cycle/base": "^4.0.1",
     "@cycle/dom": "^10.0.5",
     "@cycle/isolate": "^1.4.0",
+    "@cycle/xstream-run": "^3.0.3",
     "compression": "^1.6.2",
     "cross-env": "^1.0.8",
     "cycle-restart": "0.0.14",
@@ -39,8 +41,8 @@
     "express": "^4.14.0",
     "morgan": "^1.7.0",
     "pug": "^2.0.0-beta3",
-    "rx": "^4.1.0",
-    "virtual-dom": "^2.1.1"
+    "virtual-dom": "^2.1.1",
+    "xstream": "^5.1.3"
   },
   "xo": {
     "esnext": true
