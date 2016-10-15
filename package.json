@@ -9,8 +9,8 @@
   },
   "scripts": {
     "test": ":",
-    "build": "gulp",
-    "prepublish": "gulp"
+    "build": "babel -V && babel src --out-dir lib",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "cycle",
@@ -35,12 +35,7 @@
     "prompt": "^1.0.0"
   },
   "devDependencies": {
-    "babel-core": "^6.9.1",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-es2016": "^6.11.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2"
+    "babel-cli": "^6.16.0"
   },
   "xo": {
     "esnext": true

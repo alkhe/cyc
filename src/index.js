@@ -14,7 +14,7 @@ import { copySync as copy } from 'fs-extra';
 import path from 'path';
 import prompt from 'prompt';
 import 'colors';
-import replaceIn from './replaceIn';
+import replace_in from './replace-in';
 
 const skel = path.resolve(__dirname, '../skel');
 
@@ -30,7 +30,7 @@ prompt.get({ name: 'name', description: 'Application Name'.blue, required: true 
 			log('Copying...'.green);
 			copy(skel, dir);
 			log('Populating...'.green);
-			replaceIn(dir, /--name--/g, name);
+			replace_in(dir, /--name--/g, name);
 			log('Done.'.magenta);
 		} catch (err) {
 			log('Error: '.red + err);
