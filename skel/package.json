@@ -22,6 +22,7 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-es2016": "^6.11.0",
     "babel-preset-stage-0": "^6.5.0",
+    "callback-loader": "^0.2.4",
     "chokidar": "^1.5.1",
     "lodash.uniq": "^4.3.0",
     "webpack": "^2.1.0-beta.15",

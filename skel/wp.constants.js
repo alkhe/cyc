@@ -10,7 +10,11 @@ let routesToEntry = routes => {
 	return entries;
 };
 
-const loaders = [{ test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ }];
+const loaders = [{
+	test: /\.jsx?$/,
+	loader: 'babel-loader!callback-loader',
+	exclude: /node_modules/
+}];
 
 const clientOutput = {
 	path: join(__dirname, 'public/lib'),

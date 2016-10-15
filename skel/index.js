@@ -1,6 +1,6 @@
 import express from 'express';
 import pug from 'pug';
-import { babel } from 'dynamic-require';
+import { plain } from 'dynamic-require';
 import morgan from 'morgan';
 
 global.CLIENT = false;
@@ -20,7 +20,7 @@ const router = express.Router();
 
 let hashes = {};
 let devopt = {};
-const dynamicRequire = babel(here);
+const dynamicRequire = plain(here);
 
 if (process.env.NODE_ENV === 'production') {
 	log('[pro]');
