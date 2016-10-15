@@ -1,28 +1,16 @@
 /* global CLIENT */
-import { run } from '@cycle/core';
-import { makeDOMDriver, makeHTMLDriver } from '@cycle/dom';
-import { rerunner, restartable } from 'cycle-restart';
+import Cycle from '@cycle/xstream-run'
 
-let main = require('./aboutmain').default;
+export let { main, drivers } = require('./aboutmain')
 
-export default () =>
-	run(main, {
-		DOM: makeHTMLDriver()
-	});
+export let start = Restarter(Cycle)
 
-if (CLIENT) {
-	let drivers = {
-		DOM: restartable(makeDOMDriver('#root'), { pauseSinksWhileReplaying: false })
-	};
+if (CLIENT) start(main, drivers)
 
-	let rerun = rerunner(run);
-	rerun(main, drivers);
-
-	if (module.hot) {
-		require('webpack-hot-middleware/client');
-		module.hot.accept(() => {
-			main = require('./aboutmain').default;
-			rerun(main, drivers);
-		});
-	}
+if (module.hot) {
+	require('webpack-hot-middleware/client')
+	module.hot.accept(() => {
+		let { main, drivers } = require('./aboutmain')
+		start(main, drivers)
+	})
 }

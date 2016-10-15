@@ -1,16 +1,18 @@
-import { Observable as $ } from 'rx';
-import { div, br, i, button, h2, h4 } from '@cycle/dom';
-import { Button } from './helpers';
+import $ from 'xstream'
+import { div, br, i, button, h2, h4, makeDOMDriver } from '@cycle/dom'
+import { Button, Listen } from './helpers'
 
-export default ({ DOM }) => {
-	Button(DOM.select('.Home')).forEach(() => {
-		window.location.href = '/';
-	});
-	Button(DOM.select('.Github')).forEach(() => {
-		window.location.href = 'https://github.com/edge/cyc';
-	});
+export function main({ DOM }) {
+	Listen(
+		Button(DOM.select('.Home')),
+		() => window.location.href = '/'
+	)
+	Listen(
+		Button(DOM.select('.Github')),
+		() => window.location.href = 'https://github.com/edge/cyc'
+	)
 	return {
-		DOM: $.just(
+		DOM: $.of(
 			div('.p2.measure', [
 				h2('About'),
 				h4([
@@ -21,5 +23,9 @@ export default ({ DOM }) => {
 				button('.btn.Github', 'Github'),
 			])
 		)
-	};
+	}
+}
+
+export const drivers = {
+	DOM: CLIENT ? makeDOMDriver('#root') : () => {}
 }

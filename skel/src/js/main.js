@@ -1,29 +1,33 @@
-import { Observable as $ } from 'rx';
-import { div, br, label, input } from '@cycle/dom';
-import { Input } from './helpers';
+import $ from 'xstream'
+import { div, br, label, input, makeDOMDriver } from '@cycle/dom'
+import { Input } from './helpers'
 
-export default ({ DOM }) => {
+export function main({ DOM }) {
 	let height$ = Input(DOM.select('#Height'))
-		.startWith('177'),
-		weight$ = Input(DOM.select('#Weight'))
-		.startWith('62');
+		.startWith('177')
+	let weight$ = Input(DOM.select('#Weight'))
+		.startWith('62')
 
-	let bmi$ = $.combineLatest(
-		height$, weight$,
-		(h, w) => (w / (h / 100) ** 2).toFixed(1)
-	);
+	let bmi$ = $
+		.combine(height$, weight$)
+		.map(([h, w]) => (w / (h / 100) ** 2).toFixed(1))
 
 	return {
-		DOM: $.combineLatest(height$, weight$, bmi$, (h, w, bmi) =>
+		DOM: $.combine(height$, weight$, bmi$)
+		.map(([h, w, bmi]) =>
 			div('.p2.measure', [
 				label({ htmlFor: 'Height' }, 'Height: '),
-				input('#Height', { value: h }),
+				input('#Height', { attrs: { value: h } }),
 				br(),
 				label({ htmlFor: 'Weight' }, 'Weight: '),
-				input('#Weight', { value: w }),
+				input('#Weight', { attrs: { value: w } }),
 				br(),
 				'BMI: ' + bmi
 			])
 		)
-	};
+	}
+}
+
+export const drivers = {
+	DOM: CLIENT ? makeDOMDriver('#root') : () => {}
 }

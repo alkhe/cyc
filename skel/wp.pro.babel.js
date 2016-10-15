@@ -1,13 +1,14 @@
-import w from 'webpack';
-import { entry, clientOutput, loaders, productionPlugins } from './wp.constants';
-import { join } from 'path';
-import { writeFileSync } from 'fs';
+import w from 'webpack'
+import { entry, clientOutput, loaders, plugins, productionPlugins } from './wp.constants'
+import { join } from 'path'
+import { writeFileSync } from 'fs'
 
 export default {
 	entry,
 	output: clientOutput,
 	module: { loaders },
 	plugins: [
+		...plugins,
 		new w.DefinePlugin({
 			CLIENT: 'true'
 		}),
@@ -18,7 +19,7 @@ export default {
 					join(__dirname, 'hashes.json'),
 					JSON.stringify(result.toJson().assetsByChunkName)
 				)
-			);
+			)
 		}
 	]
-};
+}

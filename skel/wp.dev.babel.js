@@ -1,11 +1,12 @@
-import w, { optimize as oz } from 'webpack';
-import { entry, clientOutput, loaders } from './wp.constants';
+import w, { optimize as oz } from 'webpack'
+import { entry, clientOutput, plugins, loaders } from './wp.constants'
 
 export default {
 	entry,
 	output: clientOutput,
 	module: { loaders },
 	plugins: [
+		...plugins,
 		new w.DefinePlugin({
 			CLIENT: 'true'
 		}),
@@ -14,4 +15,4 @@ export default {
 		new w.NoErrorsPlugin()
 	],
 	devtool: 'eval'
-};
+}
