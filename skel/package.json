@@ -19,6 +19,8 @@
   "devDependencies": {
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.5",
+    "babel-plugin-syntax-jsx": "^6.13.0",
+    "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-preset-stage-0": "^6.16.0",
     "chokidar": "^1.6.1",
     "lodash.uniq": "^4.5.0",
@@ -37,6 +39,7 @@
     "express": "^4.14.0",
     "morgan": "^1.7.0",
     "pug": "^2.0.0-beta6",
+    "snabbdom-jsx": "^0.3.1",
     "xstream": "^6.4.1"
   },
   "xo": {

@@ -1,5 +1,6 @@
 import $ from 'xstream'
-import { div, br, label, input, makeDOMDriver } from '@cycle/dom'
+import { makeDOMDriver } from '@cycle/dom'
+import { html } from 'snabbdom-jsx'
 import { Input } from './helpers'
 
 export function main({ DOM }) {
@@ -15,15 +16,15 @@ export function main({ DOM }) {
 	return {
 		DOM: $.combine(height$, weight$, bmi$)
 		.map(([h, w, bmi]) =>
-			div('.p2.measure', [
-				label({ htmlFor: 'Height' }, 'Height: '),
-				input('#Height', { attrs: { value: h } }),
-				br(),
-				label({ htmlFor: 'Weight' }, 'Weight: '),
-				input('#Weight', { attrs: { value: w } }),
-				br(),
-				'BMI: ' + bmi
-			])
+			<div className='p2 measure'>
+				<label htmlFor='height'>Height: </label>
+				<input id='Height' value={ h } />
+				<br />
+				<label htmlFor='weight'>Weight: </label>
+				<input id='Weight' value={ w } />
+				<br />
+				BMI: { bmi }
+			</div>
 		)
 	}
 }

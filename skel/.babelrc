@@ -1,1 +1,7 @@
-{ "presets": ["stage-0", "latest"] }
+{
+	"presets": ["stage-0", "latest"],
+	"plugins": [
+		"syntax-jsx",
+		["transform-react-jsx", { "pragma": "html" }]
+	]
+}

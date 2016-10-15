@@ -1,5 +1,6 @@
 import $ from 'xstream'
-import { div, br, i, button, h2, h4, makeDOMDriver } from '@cycle/dom'
+import { makeDOMDriver } from '@cycle/dom'
+import { html } from 'snabbdom-jsx'
 import { Button, Listen } from './helpers'
 
 export function main({ DOM }) {
@@ -13,15 +14,15 @@ export function main({ DOM }) {
 	)
 	return {
 		DOM: $.of(
-			div('.p2.measure', [
-				h2('About'),
-				h4([
-					i('cyc'), ' is a Cycle.js boilerplate built with convenience and speed in mind.'
-				]),
-				br(),
-				button('.btn.Home', 'Home'), ' ',
-				button('.btn.Github', 'Github'),
-			])
+			<div className='p2 measure'>
+				<h2>About</h2>
+				<h4>
+					<b>cyc</b> is a <b>Cycle.js</b> boilerplate built with <i>convenience</i> and <i>performance</i> in mind.
+				</h4>
+				<br />
+				<button className='btn Home'>Home</button>
+				<button className='btn Github'>Github</button>
+			</div>
 		)
 	}
 }
