@@ -1,40 +1,45 @@
-import { version } from '../package.json';
+import { version } from '../package.json'
 
-const log = ::console.log;
+const log = ::console.log
+const exit = () => process.exit(0)
 
-const [,,arg] = process.argv;
+const [,,arg] = process.argv
 if (arg === '-v' || arg === '--version') {
-	log(version);
-	process.exit(0);
+	log(version)
+	exit()
 }
 
-log(`cyc v${ version }`.cyan);
+const { cyan, blue, green, magenta, red } = require('colors/safe')
 
-import { copySync as copy } from 'fs-extra';
-import path from 'path';
-import prompt from 'prompt';
-import 'colors';
-import replace_in from './replace-in';
+log(cyan(`cyc v${ version }`))
 
-const skel = path.resolve(__dirname, '../skel');
+const die = msg => {
+	log(red(msg))
+	exit()
+}
 
-prompt.message = '';
-prompt.delimiter = '';
-prompt.start();
+const copy = require('clean-copy').default
+const path = require('path')
+const prompt = require('prompt')
+const replace_in = require('./replace-in').default
 
-prompt.get({ name: 'name', description: 'Application Name'.blue, required: true }, (err, res) => {
-	const { name } = res;
-	prompt.get({ name: 'dir', description: 'Directory'.blue, default: name, required: true }, (err, res) => {
-		const dir = path.resolve(res.dir);
-		try {
-			log('Copying...'.green);
-			copy(skel, dir);
-			log('Populating...'.green);
-			replace_in(dir, /--name--/g, name);
-			log('Done.'.magenta);
-		} catch (err) {
-			log('Error: '.red + err);
-		}
-		process.exit(0);
-	});
-});
+const skel = path.resolve(__dirname, '../skel')
+
+prompt.message = ''
+prompt.delimiter = ''
+prompt.start({ noHandleSIGINT: true })
+
+prompt.get({ name: 'name', description: blue('Application Name'), required: true }, (err, res) => {
+	if (err) die(err)
+	const { name } = res
+	prompt.get({ name: 'dir', description: blue('Directory'), default: name, required: true }, (err, res) => {
+		if (err) die(err)
+		const dir = path.resolve(res.dir)
+		log(green('Copying...'))
+		copy(skel, dir, path => !/^node_modules$/.test(path)).then(() => {
+			log(green('Populating...'))
+			replace_in(dir, /--name--/g, name)
+			log(magenta('Done.'))
+		}).catch(die)
+	})
+})

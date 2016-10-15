@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": ":",
-    "build": "babel -V && babel src --out-dir lib",
+    "build": "babel src --out-dir lib",
     "prepublish": "npm run build"
   },
   "keywords": [
@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/edge/cyc#readme",
   "dependencies": {
+    "clean-copy": "latest",
     "colors": "^1.1.2",
     "fs-extra": "^0.30.0",
     "prompt": "^1.0.0"
