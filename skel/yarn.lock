@@ -951,6 +951,12 @@ cssauron@^1.2.0:
   dependencies:
     through X.X.X
 
+cycle-onionify:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/cycle-onionify/-/cycle-onionify-1.2.2.tgz#607d66c748a9695bd6429722264dce4a9c1fcda2"
+  dependencies:
+    xstream "6.x.x"
+
 d@^0.1.1, d@~0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/d/-/d-0.1.1.tgz#da184c535d18d8ee7ba2aa229b914009fae11309"
@@ -2967,6 +2973,12 @@ wrappy@1:
 xstream@^6.4.1:
   version "6.4.1"
   resolved "https://registry.yarnpkg.com/xstream/-/xstream-6.4.1.tgz#6f6937fe9700ea70b665164669663b481426481a"
+  dependencies:
+    symbol-observable "^1.0.2"
+
+xstream@6.x.x:
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/xstream/-/xstream-6.5.0.tgz#e359146bddf418019055797554fbe8f7dfdd7188"
   dependencies:
     symbol-observable "^1.0.2"
 

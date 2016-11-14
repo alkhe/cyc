@@ -57,9 +57,12 @@ else {
 				hashes[id] = entry instanceof Array ? entry[0] : entry
 			}
 		})
+	//require('./hot2')
+	//	.run(compiler)
 }
 
 import { makeHTMLDriver } from '@cycle/dom'
+import onion from 'cycle-onionify'
 
 // takes a config and creates a server endpoint
 let endpoint = ({ app, page, route, id }) => {
@@ -76,7 +79,7 @@ let endpoint = ({ app, page, route, id }) => {
 	}
 
 	router.get(route, (req, res) => {
-		start(main, {
+		start(onion(main), {
 			...drivers,
 			DOM: makeHTMLDriver(
 				ssr => res.send(template({ ssr, lib: 'lib/' + hashes[id] }))
